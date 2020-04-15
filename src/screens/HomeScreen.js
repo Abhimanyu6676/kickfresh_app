@@ -1,17 +1,17 @@
-import * as React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import FlatRow from '../comp/FlatRow';
-import {cartListAction} from '../redux/actions/CartListAction';
-import {connect} from 'react-redux';
-import {useFocusEffect} from '@react-navigation/core';
+import * as React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import FlatRow from "../comp/FlatRow";
+import { cartListAction } from "../redux/actions/CartListAction";
+import { connect } from "react-redux";
+import { useFocusEffect } from "@react-navigation/core";
 
-const Homescreen = () => {
+const Homescreen = props => {
   useFocusEffect(() => {
-    /* let debug = true;
+    let debug = true;
 
     {
       debug && console.log(props.istate);
-    } */
+    }
   });
   return (
     <View style={styles.container}>
@@ -21,14 +21,14 @@ const Homescreen = () => {
 };
 
 Homescreen.navigationOptions = {
-  header: null,
+  header: null
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });
 
-export default HomeScreen = connect((state) => ({istate: state}))(Homescreen);
+export default HomeScreen = connect(state => ({ istate: state }))(Homescreen);

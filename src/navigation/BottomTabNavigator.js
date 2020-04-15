@@ -1,8 +1,20 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
+import { View, Text } from "react-native";
 import TabBarIcon from "../../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
+import {
+  Container,
+  Left,
+  Button,
+  Icon,
+  Body,
+  Title,
+  Right,
+  Row,
+  Col
+} from "native-base";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
@@ -42,7 +54,15 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case "Home":
-      return "Welcome to oStore";
+      return (
+        <Container>
+          <Left></Left>
+          <Body>
+            <Title style={{ color: "#aaa" }}>FreshKick</Title>
+          </Body>
+          <Right></Right>
+        </Container>
+      );
     case "Links":
       return "Links to learn more";
   }

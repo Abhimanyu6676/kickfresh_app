@@ -11,11 +11,11 @@ class Application extends Component {
       appState: AppState.currentState
     };
   }
-  componentDidMount() {
+  UNSAFE_componentDidMount() {
     AppState.addEventListener("change", this.handleAppStateChange);
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
