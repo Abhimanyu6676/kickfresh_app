@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, Image} from 'react-native';
 import {View, Row, Col, Left, Body, Right, Accordion, Grid} from 'native-base';
 import {FontAwesome} from '@expo/vector-icons';
 import GridView from 'react-native-super-grid';
@@ -33,9 +33,21 @@ export default Category = (props) => {
               style={{
                 height: 70,
                 width: 100,
-                borderWidth: 1,
-                borderColor: '#a00',
-              }}></View>
+                borderWidth: 0,
+                borderColor: '#00f',
+              }}>
+              <Image
+                style={{width: 100, height: 70}}
+                source={{
+                  uri:
+                    'http://localhost:3000/static/images/productImages/' +
+                    props.Category +
+                    '/' +
+                    props.Category +
+                    '.png',
+                }}
+              />
+            </View>
             <View style={{marginLeft: 20}}>
               <Row>
                 <View

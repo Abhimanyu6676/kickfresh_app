@@ -1,8 +1,8 @@
-import { reduxConstants } from "../ReduxConstants";
+import {reduxConstants} from '../ReduxConstants';
 
-export const cartListAction = cartList => {
+export const cartListAction = (cartList) => {
   return {
     type: reduxConstants.CART_LIST,
-    cartList: cartList
+    cartList: cartList,
   };
 };

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Row, Container, Thumbnail, Button} from 'native-base';
 import {MobileLoginBlock} from '../comp/cartComp/MobileLoginBlock';
-import {CartList} from '../comp/cartComp/CartList';
+import CartList from '../comp/cartComp/CartList';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import useAxios from 'axios-hooks';
@@ -42,15 +42,12 @@ export default function CartScreen({navigation, route}) {
   });
 
   const [result, setResult] = React.useState(null);
-  const [{data, loading, error}, refetch] = useAxios(
+  /* const [{data, loading, error}, refetch] = useAxios(
     'http://192.168.1.90:3000/test',
-  );
+  ); */
 
   useEffect(() => {
-    Cookies.set(
-      'test',
-      '<Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text><Text>{data && JSON.stringify(data, null, 2)}</Text>',
-    );
+    Cookies.set('test', '<Text>{data2)}</Text>');
     return () => {
       //cleanup;
     };
@@ -59,11 +56,11 @@ export default function CartScreen({navigation, route}) {
   return (
     <View>
       <MobileLoginBlock />
-      <View style={{width: '100%', alignItems: 'center'}}>
+      {/* <View style={{width: '100%', alignItems: 'center'}}>
         <Text>{data && JSON.stringify(data, null, 2)}</Text>
         <Text>{error && JSON.stringify(error, null, 2)}</Text>
         <Text>{loading && JSON.stringify(loading, null, 2)}</Text>
-      </View>
+      </View> */}
       <CartList />
     </View>
   );

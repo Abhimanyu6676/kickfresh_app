@@ -46,7 +46,7 @@ const Cartitems = (props) => {
 };
 
 const _ListItem = (props) => {
-  const Add = () => {
+  const Add = async () => {
     let r = AddToCart({
       Product: props.item,
       Cart: props.cart,
@@ -55,7 +55,7 @@ const _ListItem = (props) => {
     props.cartListAction({cartList: r.cartList});
   };
 
-  const Remove = () => {
+  const Remove = async () => {
     let r = RemoveFromCart({
       Cart: props.cart,
       Qty: 1,

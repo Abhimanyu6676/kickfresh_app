@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Image} from 'react-native';
 import QuantityView2 from '../quantityViews/QuantityView2';
 import {Row} from 'native-base';
 import {connect} from 'react-redux';
@@ -11,7 +11,13 @@ const Itemtype1 = (props) => {
   const [quantity, setQuantity] = useState(0);
 
   useFocusEffect(() => {
-    console.log('focus');
+    //console.log('focus');
+    return () => {};
+  });
+
+  useEffect(() => {
+    //Effect
+    console.log('effect');
     let productQty = 0;
     props.cart.map((item, index) => {
       if (item.ProductName == props.item.ProductName) {
@@ -19,11 +25,6 @@ const Itemtype1 = (props) => {
       }
     });
     setQuantity(productQty);
-    return () => {};
-  });
-
-  useEffect(() => {
-    //Effect
     return () => {
       //CleanUp
     };
@@ -35,7 +36,7 @@ const Itemtype1 = (props) => {
       Cart: props.cart,
       Qty: 1,
     });
-    setQuantity(r.rtrQty ? r.rtrQty : 0);
+    //setQuantity(r.rtrQty ? r.rtrQty : 0);
     props.cartListAction({cartList: r.cartList});
   };
 
@@ -45,7 +46,7 @@ const Itemtype1 = (props) => {
       Qty: 1,
       ProductName: props.item.ProductName,
     });
-    setQuantity(r.rtrQty ? r.rtrQty : 0);
+    //setQuantity(r.rtrQty ? r.rtrQty : 0);
     props.cartListAction({cartList: r.cartList});
   };
 
@@ -67,12 +68,27 @@ const Itemtype1 = (props) => {
             borderRadius: 10,
             paddingHorizontal: 4,
             paddingVertical: 2,
+            zIndex: 2,
           }}>
           <Text style={{fontSize: 10, fontWeight: '600', color: '#fff'}}>
             15% off
           </Text>
         </View>
-        <View style={styles.itemImage}></View>
+        <View style={styles.itemImage}>
+          <Image
+            style={{width: 120, height: 80}}
+            source={{
+              uri:
+                'http://localhost:3000/static/images/productImages/' +
+                props.item.Category +
+                '/' +
+                props.item.SubCategory +
+                '/' +
+                props.item.ProductName +
+                '.png',
+            }}
+          />
+        </View>
       </View>
       <View>
         <Row>
@@ -147,7 +163,7 @@ const styles = StyleSheet.create({
   itemImage: {
     height: 80,
     width: 120,
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: '#0f0',
   },
 });

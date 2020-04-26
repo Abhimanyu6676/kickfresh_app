@@ -16,6 +16,8 @@ export const gql_trendingProducts = gql`
   {
     allProducts(where: {isTrending_gt: 0}) {
       ProductName
+      Category
+      SubCategory
       Price
       Breakqty
       isTrending
@@ -28,6 +30,8 @@ export const gql_SubCategoryProducts = gql`
   query Products($SubCategory: String!) {
     allProducts(where: {SubCategory: $SubCategory}) {
       ProductName
+      Category
+      SubCategory
       Price
       Breakqty
       isTrending

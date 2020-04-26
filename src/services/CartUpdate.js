@@ -30,7 +30,6 @@ export const AddToCart = (props) => {
     cartUpdated = true;
   }
   rtrQty = P.currQty;
-  //cartListAction({cartList: newCart});
   return {cartList: cartList, updated: cartUpdated, rtrQty: rtrQty};
 };
 
@@ -69,6 +68,5 @@ export const RemoveFromCart = (props) => {
   if (!cartUpdated) {
     cartUpdated = false;
   }
-  //cartListAction({cartList: newCart});
   return {cartList: newCart, updated: cartUpdated, rtrQty: rtrQty};
 };
