@@ -1,7 +1,7 @@
 import {reduxConstants} from '../ReduxConstants';
 
 const initialState = {
-  cartList: [{name: 'Item1'}, {name: 'Item2'}],
+  cartList: [],
 };
 
 export const cartReducer = (state = initialState, action) => {

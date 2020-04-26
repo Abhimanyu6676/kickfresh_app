@@ -7,10 +7,9 @@
 
 import React, { useEffect } from "react";
 import Application from "./src/Application";
-import { Platform } from "react-native";
 import { SplashScreen } from "expo";
 import * as Font from "expo-font";
-import useLinking from "./navigation/useLinking";
+import useLinking from "./src/navigation/useLinking";
 
 const App = props => {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
