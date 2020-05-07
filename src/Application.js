@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import {AppState} from 'react-native';
-import AppStackNavigator from './navigation/Routes';
-import {Provider} from 'react-redux';
-import {store} from './redux/ReduxStore';
+import React, { Component } from "react";
+import { AppState } from "react-native";
+import AppStackNavigator from "./navigation/Routes";
+import { Provider } from "react-redux";
+import { store } from "./redux/ReduxStore";
 import {
   ApolloProvider,
   ApolloClient,
   HttpLink,
   InMemoryCache,
-} from '@apollo/client';
-import Background from './services/Background';
+} from "@apollo/client";
+import Background from "./services/Background";
 
-//const host = 'http://192.168.1.6';
-const host = 'http://192.168.1.90';
+//const host = 'http://162.241.115.55';
+const host = "http://192.168.1.90:80";
 //const host = 'http://localhost';
 
 //Apollo Client Configuration
@@ -29,8 +29,8 @@ const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }), */
   link: new HttpLink({
-    uri: host + ':3000/admin/api',
-    credentials: 'same-origin',
+    uri: host + "/admin/api",
+    credentials: "same-origin",
   }),
   /* ]), */
 });
@@ -44,15 +44,15 @@ class Application extends Component {
   }
 
   componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
+    AppState.addEventListener("change", this.handleAppStateChange);
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
+    AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
   handleAppStateChange = (nextAppState) => {
-    this.setState({appState: nextAppState});
+    this.setState({ appState: nextAppState });
   };
 
   render() {
