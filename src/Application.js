@@ -11,7 +11,7 @@ import {
 } from "@apollo/client";
 import Background from "./services/Background";
 
-const host = "http://162.241.115.55:80";
+const host = "http://162.241.115.55";
 //const host = "http://192.168.1.90:80";
 //const host = 'http://localhost';
 
