@@ -1,9 +1,9 @@
-import { createStore, combineReducers } from "redux";
-import { cartReducer } from "./reducers/CartListReducer";
-import { DimensionReducer } from "./reducers/DimensionReducer";
+import {createStore, combineReducers} from 'redux';
+import {cartReducer} from './reducers/CartListReducer';
+import {userReducer} from './reducers/UserReducer';
 
 const allReducers = combineReducers({
   cartReducer,
-  DimensionReducer
+  userReducer,
 });
 export const store = createStore(allReducers);

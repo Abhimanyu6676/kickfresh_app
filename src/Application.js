@@ -3,7 +3,6 @@ import {AppState} from 'react-native';
 import AppStackNavigator from './navigation/Routes';
 import {Provider} from 'react-redux';
 import {store} from './redux/ReduxStore';
-import {DimensionAction} from './redux/actions/DimensionAction';
 import {
   ApolloProvider,
   ApolloClient,
@@ -13,8 +12,8 @@ import {
 import Background from './services/Background';
 
 //const host = 'http://192.168.1.6';
-//const host = 'http://192.168.1.90';
-const host = 'http://localhost';
+const host = 'http://192.168.1.90';
+//const host = 'http://localhost';
 
 //Apollo Client Configuration
 const client = new ApolloClient({

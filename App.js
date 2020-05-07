@@ -5,17 +5,18 @@
  * @flow
  */
 
-import React, { useEffect } from "react";
-import Application from "./src/Application";
-import { SplashScreen } from "expo";
-import * as Font from "expo-font";
-import useLinking from "./src/navigation/useLinking";
+import React, {useEffect} from 'react';
+import Application from './src/Application';
+import {SplashScreen} from 'expo';
+import * as Font from 'expo-font';
+import {Ionicons} from '@expo/vector-icons';
+import useLinking from './src/navigation/useLinking';
 
-const App = props => {
+const App = (props) => {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
-  const { getInitialState } = useLinking(containerRef);
+  const {getInitialState} = useLinking(containerRef);
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
@@ -28,8 +29,8 @@ const App = props => {
 
         // Load fonts
         await Font.loadAsync({
-          /* ...Ionicons.font,
-          "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf") */
+          ...Ionicons.font,
+          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

@@ -1,5 +1,5 @@
 import {CartList} from '../comp/cartComp/CartList';
-import {cartListAction} from '../redux/actions/CartListAction';
+import Cookies from 'js-cookie';
 
 /**
  * @param {, Product, Cart, Qty}
@@ -30,6 +30,7 @@ export const AddToCart = (props) => {
     cartUpdated = true;
   }
   rtrQty = P.currQty;
+  Cookies.set('cart', cartList);
   return {cartList: cartList, updated: cartUpdated, rtrQty: rtrQty};
 };
 
@@ -50,7 +51,7 @@ export const RemoveFromCart = (props) => {
   cartList.map((item, index) => {
     if (item.ProductName == props.ProductName) {
       P = item;
-      if (item.currQty >= 1) {
+      if (item.currQty > 1) {
         item.currQty--;
         P = item;
         if (item.currQty > 0) {
@@ -68,5 +69,6 @@ export const RemoveFromCart = (props) => {
   if (!cartUpdated) {
     cartUpdated = false;
   }
+  Cookies.set('cart', newCart);
   return {cartList: newCart, updated: cartUpdated, rtrQty: rtrQty};
 };

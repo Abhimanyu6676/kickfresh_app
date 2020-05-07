@@ -5,7 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export const QuantityView1 = (props) => {
   return (
-    <View style={{borderWidth: 1, paddingVertical: 0}}>
+    <View style={{borderWidth: 0, paddingVertical: 0}}>
       <Row>
         <Col>
           <TouchableOpacity onPress={props.Remove}>

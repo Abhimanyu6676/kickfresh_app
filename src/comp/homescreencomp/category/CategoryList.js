@@ -7,42 +7,62 @@ import {gql_allCatogries} from '../../../services/gqls';
 
 const CategoryList = (props) => {
   const {loading, error, data} = useQuery(gql_allCatogries);
+  const _data = [
+    {
+      Category: 'Loading...',
+      SubCategory: [],
+    },
+    {
+      Category: 'Category...',
+      SubCategory: [],
+    },
+  ];
 
   useEffect(() => {
     //effect
-
     return () => {
       //cleanup
     };
   });
 
-  if (loading)
+  if (loading || error)
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View
+        style={[
+          ComStyles.container,
+          props.dimensions.window.width < 500
+            ? MobStyles.container
+            : PcStyles.container,
+        ]}>
+        <Category
+          data={_data}
+          dimensions={props.dimensions}
+          navigation={props.navigation}
+        />
       </View>
     );
-  if (error)
-    return (
-      <View>
-        <Text>{JSON.stringify(error.message)}</Text>
-      </View>
-    );
+
   return (
-    <Category
-      data={data.allCategories}
-      dimensions={props.dimensions}
-      navigation={props.navigation}
-    />
+    <View
+      style={[
+        ComStyles.container,
+        props.dimensions.window.width < 500
+          ? MobStyles.container
+          : PcStyles.container,
+      ]}>
+      <Category
+        data={data.allCategories}
+        dimensions={props.dimensions}
+        navigation={props.navigation}
+      />
+    </View>
   );
 };
 
 export default CategoryList;
 
 const ComStyles = StyleSheet.create({
-  container: {
-    borderWidth: 0,
-  },
+  container: {},
 });
 
 const MobStyles = StyleSheet.create({

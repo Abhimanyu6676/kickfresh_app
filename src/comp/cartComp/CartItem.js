@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
 import {
-  Container,
-  Content,
   List,
   ListItem,
   Thumbnail,
@@ -12,36 +10,38 @@ import {
   View,
 } from 'native-base';
 import {QuantityView1} from '../common/quantityViews/QuantityView1';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {cartListAction} from '../../redux/actions/CartListAction';
 import {AddToCart, RemoveFromCart} from '../../services/CartUpdate';
 
-const Cartitems = (props) => {
+export default Cartitems = (props) => {
+  const cart = useSelector((state) => state.cartReducer.cartList);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     //effect
-    console.log('))-' + JSON.stringify(props.cart));
+    console.log('))-' + JSON.stringify(cart));
     return () => {
       //cleanup
     };
   });
+
   return (
-    <Container>
-      <Content>
-        <List>
-          {props.cart.map(
-            (item, index) =>
-              item.currQty && (
-                <_ListItem
-                  item={item}
-                  key={index}
-                  cart={props.cart}
-                  cartListAction={props.cartListAction}
-                />
-              ),
-          )}
-        </List>
-      </Content>
-    </Container>
+    <View style={{minHeight: '40%'}}>
+      <List>
+        {cart.map(
+          (item, index) =>
+            item.currQty && (
+              <_ListItem
+                item={item}
+                key={index}
+                cart={cart}
+                dispatch={dispatch}
+              />
+            ),
+        )}
+      </List>
+    </View>
   );
 };
 
@@ -52,7 +52,7 @@ const _ListItem = (props) => {
       Cart: props.cart,
       Qty: 1,
     });
-    props.cartListAction({cartList: r.cartList});
+    props.dispatch(cartListAction({cartList: r.cartList}));
   };
 
   const Remove = async () => {
@@ -61,7 +61,7 @@ const _ListItem = (props) => {
       Qty: 1,
       ProductName: props.item.ProductName,
     });
-    props.cartListAction({cartList: r.cartList});
+    props.dispatch(cartListAction({cartList: r.cartList}));
   };
   return (
     <ListItem thumbnail>
@@ -90,9 +90,9 @@ const _ListItem = (props) => {
   );
 };
 
-export default CartItems = connect(
+/* export default CartItems = connect(
   (state) => ({
     cart: state.cartReducer.cartList,
   }),
   {cartListAction},
-)(Cartitems);
+)(Cartitems); */

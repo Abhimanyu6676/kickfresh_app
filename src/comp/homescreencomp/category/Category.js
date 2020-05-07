@@ -1,26 +1,27 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, Image} from 'react-native';
-import {View, Row, Col, Left, Body, Right, Accordion, Grid} from 'native-base';
+import {Text, TouchableOpacity, Image, View} from 'react-native';
+import {Row, Col, Left, Body, Right, Accordion, Grid} from 'native-base';
 import {FontAwesome} from '@expo/vector-icons';
 import GridView from 'react-native-super-grid';
 
 export default Category = (props) => {
-  let {navigation} = props;
+  let {navigation, dimensions} = props;
   const CustomHeader = (props) => {
     return (
-      <Row
+      <View
         style={{
+          flexDirection: 'row',
+          marginHorizontal: 3,
           borderRadius: 5,
           marginTop: 15,
-          marginHorizontal: 5,
           shadowColor: '#000',
           shadowOffset: {
             width: 0,
             height: 0,
           },
-          shadowOpacity: 0.25,
+          shadowOpacity: 0.2,
           shadowRadius: 5,
-          elevation: 5,
+          elevation: 2,
         }}>
         <Col style={{overflow: 'hidden', flex: 4}}>
           <Row
@@ -40,7 +41,7 @@ export default Category = (props) => {
                 style={{width: 100, height: 70}}
                 source={{
                   uri:
-                    'http://localhost:3000/static/images/productImages/' +
+                    'http://192.168.1.90:3000/ProductImages/' +
                     props.Category +
                     '/' +
                     props.Category +
@@ -104,7 +105,7 @@ export default Category = (props) => {
             />
           </View>
         </Col>
-      </Row>
+      </View>
     );
   };
 
@@ -123,6 +124,7 @@ export default Category = (props) => {
                 navigation.navigate('SubCategory', {
                   SubCategory: item.item,
                   CategoryList: props.SubCategory,
+                  dimensions: dimensions,
                 });
               }}>
               <View style={{width: 100}}>
@@ -131,8 +133,20 @@ export default Category = (props) => {
                   style={{
                     height: 100,
                     width: 100,
-                    borderWidth: 1,
-                  }}></View>
+                    borderWidth: 0,
+                  }}>
+                  <Image
+                    style={{width: 100, height: 100}}
+                    source={{
+                      uri:
+                        'http://192.168.1.90:3000/ProductImages/' +
+                        props.Category +
+                        '/' +
+                        item.item.SubCategory +
+                        '.png',
+                    }}
+                  />
+                </View>
                 <Text
                   style={{
                     color: '#aaa',
@@ -171,7 +185,7 @@ export default Category = (props) => {
           : PcStyles.container,
       ]}>
       <Accordion
-        style={{borderWidth: 0}}
+        style={{backgroundColor: 'transparent'}}
         dataArray={props.data}
         animation={true}
         expanded={true}
@@ -185,10 +199,7 @@ export default Category = (props) => {
 import {StyleSheet} from 'react-native';
 
 const ComStyles = StyleSheet.create({
-  container: {
-    borderWidth: 0,
-  },
-  Row: {},
+  container: {},
 });
 
 const MobStyles = StyleSheet.create({

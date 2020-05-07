@@ -39,3 +39,32 @@ export const gql_SubCategoryProducts = gql`
     }
   }
 `;
+
+export const gql_SearchProducts = gql`
+  query Products($ProductName: String!) {
+    allProducts(where: {ProductName_contains: $ProductName}, first: 10) {
+      ProductName
+      Category
+      SubCategory
+      Price
+      Breakqty
+      isTrending
+      Unit
+    }
+  }
+`;
+
+export const gql_signIN = gql`
+  mutation signin($username: String, $pass: String) {
+    authenticate: authenticateUserWithPassword(
+      username: $username
+      password: $pass
+    ) {
+      token
+      item {
+        username
+        isAdmin
+      }
+    }
+  }
+`;

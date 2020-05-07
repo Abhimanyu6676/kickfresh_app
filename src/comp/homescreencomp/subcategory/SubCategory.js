@@ -8,59 +8,55 @@ import {useQuery} from '@apollo/client';
 import {gql_SubCategoryProducts} from '../../../services/gqls';
 
 export default SubCategory = (props) => {
-  const {CategoryList, SubCategory} = props.route.params;
+  const {CategoryList, SubCategory, dimensions} = props.route.params;
   const {loading, error, data} = useQuery(gql_SubCategoryProducts, {
     variables: {SubCategory: SubCategory.SubCategory},
   });
 
-  useEffect(() => {
-    //effect
-    //console.log('%%' + SubCategory.SubCategory);
-    return () => {
-      //cleanup
-    };
-  });
-
   props.navigation.setOptions({
     headerStyle: {
-      padding: 0,
-      margin: 0,
+      height: 60,
+      borderWidth: 0,
     },
     headerTitle: () => (
       <View
         style={{
-          width: '100vw',
+          width: '100%',
           paddingRight: 100,
+          borderWidth: 0,
         }}>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={CategoryList}
-          keyExtractor={(item, index) => 'key' + index}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableOpacity
-                style={{paddingVertical: 10}}
-                onPress={() => {
-                  console.log(JSON.stringify(item.SubCategory));
-                  props.navigation.replace('SubCategory', {
-                    SubCategory: {SubCategory: item.SubCategory},
-                    CategoryList: CategoryList,
-                  });
-                }}>
-                <Text
-                  style={{
-                    color: '#aaa',
-                    fontWeight: '600',
-                    textTransform: 'uppercase',
-                    padding: 10,
+        <ScrollView horizontal>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={CategoryList}
+            keyExtractor={(item, index) => 'key' + index}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  style={{paddingVertical: 10}}
+                  onPress={() => {
+                    console.log(JSON.stringify(item.SubCategory));
+                    props.navigation.replace('SubCategory', {
+                      SubCategory: {SubCategory: item.SubCategory},
+                      CategoryList: CategoryList,
+                      dimensions: {dimensions},
+                    });
                   }}>
-                  {item.SubCategory}
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
-        />
+                  <Text
+                    style={{
+                      color: '#aaa',
+                      fontWeight: '600',
+                      textTransform: 'uppercase',
+                      padding: 10,
+                    }}>
+                    {item.SubCategory}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </ScrollView>
       </View>
     ),
   });
@@ -96,21 +92,22 @@ export default SubCategory = (props) => {
       </View>
     );
   return (
-    <ScrollView>
-      <View
-        style={{
-          backgroundColor: '#fff',
-          borderWidth: 0,
-        }}>
-        {/* <Text>{props.route.params.SubCategory.SubCategory}</Text> */}
-        <GridView
-          itemDimension={150}
-          items={data.allProducts}
-          spacing={10}
-          style={{flex: 1}}
-          renderItem={(item, index) => <ItemType1 item={item.item} />}
-        />
-      </View>
-    </ScrollView>
+    <View
+      style={{
+        backgroundColor: '#fff',
+        borderWidth: 0,
+        height: '100%',
+      }}>
+      {/* <Text>{props.route.params.SubCategory.SubCategory}</Text> */}
+      <GridView
+        itemDimension={160}
+        items={data.allProducts}
+        spacing={10}
+        style={{flex: 1}}
+        renderItem={(item, index) => (
+          <ItemType1 item={item.item} dimensions={dimensions} />
+        )}
+      />
+    </View>
   );
 };

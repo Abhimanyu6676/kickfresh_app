@@ -1,70 +1,52 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Dimensions} from 'react-native';
 import {Row, Container, Thumbnail, Button} from 'native-base';
 import {MobileLoginBlock} from '../comp/cartComp/MobileLoginBlock';
 import CartList from '../comp/cartComp/CartList';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import useAxios from 'axios-hooks';
+import {connect} from 'react-redux';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import CartInfo from '../comp/cartComp/CartInfo';
 
-export default function CartScreen({navigation, route}) {
-  navigation.setOptions({
-    headerTitle: (props) => (
-      <View style={{paddingRight: 5}}>
-        <Row>
-          <Text style={{fontWeight: 'bold', fontSize: 20, color: '#7a0'}}>
-            Cart
-          </Text>
-        </Row>
-        <Row>
-          <Text style={{color: '#aaa'}}>
-            Total Cart Value is <Text style={{color: '#0aa'}}>Rs:737</Text>
-          </Text>
-        </Row>
-      </View>
-    ),
-    headerRight: () => (
-      <Container
-        style={{
-          justifyContent: 'center',
-          paddingHorizontal: 15,
-          borderWidth: 0,
-        }}>
-        <Thumbnail
-          style={{padding: 10}}
-          source={{
-            uri:
-              'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg',
-          }}
-        />
-      </Container>
-    ),
-  });
+const window = Dimensions.get('window');
+const screen = Dimensions.get('screen');
 
-  const [result, setResult] = React.useState(null);
-  /* const [{data, loading, error}, refetch] = useAxios(
-    'http://192.168.1.90:3000/test',
-  ); */
+const Cartscreen = (props) => {
+  const {navigation, route} = props;
+  const [Price, setPrice] = useState(0);
+  const [dimensions, setDimensions] = useState({window, screen});
+
+  const onDimensionChange = ({window, screen}) => {
+    setDimensions({window, screen});
+  };
 
   useEffect(() => {
-    Cookies.set('test', '<Text>{data2)}</Text>');
+    //effect
+    let P = 0;
+    props.cart.map((item, index) => {
+      P = item.currQty * item.Price + P;
+    });
+    setPrice(P);
+    Dimensions.addEventListener('change', onDimensionChange);
     return () => {
-      //cleanup;
+      //cleanup
+      Dimensions.removeEventListener('change', onDimensionChange);
     };
   });
 
   return (
-    <View>
-      <MobileLoginBlock />
-      {/* <View style={{width: '100%', alignItems: 'center'}}>
-        <Text>{data && JSON.stringify(data, null, 2)}</Text>
-        <Text>{error && JSON.stringify(error, null, 2)}</Text>
-        <Text>{loading && JSON.stringify(loading, null, 2)}</Text>
-      </View> */}
-      <CartList />
-    </View>
+    <ScrollView style={{backgroundColor: '#eee'}}>
+      <MobileLoginBlock dimensions={dimensions} />
+      <CartList dimensions={dimensions} />
+      <CartInfo dimensions={dimensions} />
+    </ScrollView>
   );
-}
+};
+
+export default CartScreen = connect((state) => ({
+  cart: state.cartReducer.cartList,
+}))(Cartscreen);
 
 const getAllProducts = async () => {
   return new Promise(async (resolve, reject) => {
@@ -77,9 +59,6 @@ const getAllProducts = async () => {
         },
       )
       .then((response) => {
-        let c = Cookies.get('test');
-        console.log('++++++++++++++' + c);
-
         console.log(
           'axios response-- ' +
             'LoginAPI_status::' +

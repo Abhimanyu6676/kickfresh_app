@@ -14,29 +14,27 @@ export default AddView = (props) => {
     return (
       <View style={styles.container}>
         <View style={styles.ItemAddView}>
-          <View style={styles.RemoveButton}>
+          <TouchableOpacity style={styles.RemoveButton} onPress={remove}>
             <FontAwesome
               name="minus"
               style={[, {color: '#fff', fontSize: 14}]}
-              onPress={remove}
             />
-          </View>
+          </TouchableOpacity>
           <View style={styles.centerText}>
             <Text style={styles.amountText}>{props.Quantity}</Text>
           </View>
-          <View style={styles.AddButton}>
+          <TouchableOpacity style={styles.AddButton} onPress={add}>
             <FontAwesome
               name="plus"
               style={[, {color: '#fff', fontSize: 14}]}
-              onPress={add}
             />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
   } else {
     return (
-      <TouchableOpacity onPress={add}>
+      <TouchableOpacity style={{height: 30}} onPress={add}>
         <View style={styles.container}>
           <View
             style={{
@@ -44,7 +42,6 @@ export default AddView = (props) => {
               backgroundColor: '#af0',
               alignItems: 'center',
               justifyContent: 'center',
-              paddingVertical: 3,
             }}>
             <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
               ADD
@@ -73,17 +70,12 @@ export default AddView = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 3,
+    height: 30,
     width: '100%',
     flex: 1,
     flexDirection: 'row',
-    borderRadius: 80,
     overflow: 'hidden',
-  },
-  itemImage: {
-    height: '70%',
-    borderWidth: 0,
-    borderColor: '#0f0',
+    borderRadius: 5,
   },
   ItemAddView: {
     flex: 1,
@@ -95,8 +87,8 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   AddButton: {
-    width: 22,
-    height: 22,
+    width: 30,
+    height: 30,
     backgroundColor: '#0a0',
     padding: 2,
     alignItems: 'center',
@@ -105,8 +97,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   RemoveButton: {
-    width: 22,
-    height: 22,
+    width: 30,
+    height: 30,
     backgroundColor: '#0a0',
     padding: 2,
     alignItems: 'center',
