@@ -132,7 +132,7 @@ const ComStyles = StyleSheet.create({
 
 const MobStyles = StyleSheet.create({
   container: {},
-  Item: {},
+  Item: {width: '95%'},
 });
 
 const TabStyles = StyleSheet.create({
@@ -142,5 +142,5 @@ const TabStyles = StyleSheet.create({
 
 const PcStyles = StyleSheet.create({
   container: {},
-  Item: {},
+  Item: {width: '90%'},
 });
