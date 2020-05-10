@@ -10,8 +10,8 @@ import {primaryColor} from '../../assets/theme/global_colors';
 import {Row} from '../../assets/components/Layouts';
 
 const BottomTab = createBottomTabNavigator();
-//const INITIAL_ROUTE_NAME = "StoreNavigation";
-const INITIAL_ROUTE_NAME = 'Cart';
+const INITIAL_ROUTE_NAME = 'StoreNavigation';
+//const INITIAL_ROUTE_NAME = 'Cart';
 
 const window = Dimensions.get('window');
 const screen = Dimensions.get('screen');

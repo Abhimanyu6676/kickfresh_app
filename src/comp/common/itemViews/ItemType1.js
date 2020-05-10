@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import QuantityView2 from "../quantityViews/QuantityView2";
-import { Row } from "native-base";
-import { useDispatch, useSelector } from "react-redux";
-import { cartListAction } from "../../../redux/actions/CartListAction";
-import { AddToCart, RemoveFromCart } from "../../../services/CartUpdate";
-import ImageLoad from "react-native-image-placeholder";
-import { server } from "../../../services/REST";
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, Text, Image} from 'react-native';
+import QuantityView2 from '../quantityViews/QuantityView2';
+import {Row} from 'native-base';
+import {useDispatch, useSelector} from 'react-redux';
+import {cartListAction} from '../../../redux/actions/CartListAction';
+import {AddToCart, RemoveFromCart} from '../../../services/CartUpdate';
+import ImageLoad from 'react-native-image-placeholder';
+import {server} from '../../../services/REST';
 
 export default ItemType1 = (props) => {
   const [quantity, setQuantity] = useState(0);
@@ -34,8 +34,8 @@ export default ItemType1 = (props) => {
       Qty: 1,
     });
     //setQuantity(r.rtrQty ? r.rtrQty : 0);
-    console.log("updateCart>> " + JSON.stringify(r.cartList));
-    dispatch(cartListAction({ cartList: r.cartList }));
+    console.log('updateCart>> ' + JSON.stringify(r.cartList));
+    dispatch(cartListAction({cartList: r.cartList}));
   };
 
   const Remove = () => {
@@ -45,8 +45,8 @@ export default ItemType1 = (props) => {
       ProductName: props.item.ProductName,
     });
     //setQuantity(r.rtrQty ? r.rtrQty : 0);
-    console.log("updateCart>> " + JSON.stringify(r.cartList));
-    dispatch(cartListAction({ cartList: r.cartList }));
+    console.log('updateCart>> ' + JSON.stringify(r.cartList));
+    dispatch(cartListAction({cartList: r.cartList}));
   };
 
   return (
@@ -56,30 +56,27 @@ export default ItemType1 = (props) => {
         props.dimensions.window.width < 500
           ? MobStyles.container
           : PcStyles.container,
-      ]}
-    >
+      ]}>
       <View
         style={{
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
           padding: 10,
-        }}
-      >
+        }}>
         <View
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 10,
             left: 10,
-            alignSelf: "flex-start",
-            backgroundColor: "#0a0",
+            alignSelf: 'flex-start',
+            backgroundColor: '#0a0',
             borderRadius: 10,
             paddingHorizontal: 4,
             paddingVertical: 2,
             zIndex: 2,
-          }}
-        >
-          <Text style={{ fontSize: 10, fontWeight: "600", color: "#fff" }}>
+          }}>
+          <Text style={{fontSize: 10, fontWeight: '600', color: '#fff'}}>
             15% off
           </Text>
         </View>
@@ -89,27 +86,44 @@ export default ItemType1 = (props) => {
             props.dimensions.window.width < 500
               ? MobStyles.itemImage
               : PcStyles.itemImage,
-          ]}
-        >
-          <ImageLoad
-            style={{ width: 100, height: 100 }}
-            loadingStyle={{
-              size: "large",
-              color: "#aaa",
-              width: 100,
-              height: 100,
-            }}
-            placeholderSource={require("../../../../assets/loading_logo.png")}
+          ]}>
+          {/* <ImageLoad
             source={{
               uri:
                 server +
-                "/ProductImages/" +
+                '/ProductImages/' +
                 props.item.Category +
-                "/" +
+                '/' +
                 props.item.SubCategory +
-                "/" +
+                '/' +
                 props.item.ProductName +
-                ".png",
+                '.png',
+            }}
+            style={{width: 100, height: 100}}
+            loadingStyle={{
+              size: 'large',
+              color: '#aaa',
+              width: 100,
+              height: 100,
+            }}
+            placeholderSource={require('../../../../assets/loading_logo.png')}
+          /> */}
+          <Image
+            style={{width: 100, height: 100, position: 'absolute'}}
+            source={require('../../../../assets/loading_logo.png')}
+          />
+          <Image
+            style={{width: 100, height: 100}}
+            source={{
+              uri:
+                server +
+                '/ProductImages/' +
+                props.item.Category +
+                '/' +
+                props.item.SubCategory +
+                '/' +
+                props.item.ProductName +
+                '.png',
             }}
           />
         </View>
@@ -120,21 +134,19 @@ export default ItemType1 = (props) => {
             style={{
               paddingHorizontal: 8,
               fontSize: 14,
-              fontWeight: "700",
-              color: "#777",
-            }}
-          >
+              fontWeight: '700',
+              color: '#777',
+            }}>
             {props.item.Price}
           </Text>
           <Text
             style={{
-              textDecorationLine: "line-through",
+              textDecorationLine: 'line-through',
               fontSize: 10,
-              fontWeight: "600",
-              color: "#aaa",
-              alignSelf: "flex-end",
-            }}
-          >
+              fontWeight: '600',
+              color: '#aaa',
+              alignSelf: 'flex-end',
+            }}>
             {parseInt(props.item.Price) + 5}
           </Text>
         </Row>
@@ -144,12 +156,11 @@ export default ItemType1 = (props) => {
               paddingHorizontal: 8,
               paddingTop: 2,
               fontSize: 12,
-              fontWeight: "700",
-              color: "#777",
+              fontWeight: '700',
+              color: '#777',
               height: 30,
               borderWidth: 0,
-            }}
-          >
+            }}>
             {props.item.ProductName}
           </Text>
         </Row>
@@ -159,15 +170,14 @@ export default ItemType1 = (props) => {
               paddingHorizontal: 8,
               paddingTop: 2,
               fontSize: 10,
-              fontWeight: "600",
-              color: "#777",
-            }}
-          >
-            {props.item.Breakqty + " " + props.item.Unit}
+              fontWeight: '600',
+              color: '#777',
+            }}>
+            {props.item.Breakqty + ' ' + props.item.Unit}
           </Text>
         </Row>
       </View>
-      <View style={{ paddingVertical: 6, paddingHorizontal: 10 }}>
+      <View style={{paddingVertical: 6, paddingHorizontal: 10}}>
         <QuantityView2 Quantity={quantity} Add={Add} Remove={Remove} />
       </View>
     </View>
@@ -177,12 +187,12 @@ export default ItemType1 = (props) => {
 const ComStyles = StyleSheet.create({
   container: {
     width: 160,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     marginVertical: 10,
     marginHorizontal: 5,
-    alignSelf: "center",
+    alignSelf: 'center',
     borderWidth: 0,
-    shadowColor: "#aaa",
+    shadowColor: '#aaa',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -195,7 +205,7 @@ const ComStyles = StyleSheet.create({
     height: 100,
     width: 100,
     borderWidth: 0,
-    borderColor: "#0f0",
+    borderColor: '#0f0',
   },
 });
 
