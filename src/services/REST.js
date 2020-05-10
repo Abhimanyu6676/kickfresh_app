@@ -1,16 +1,17 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 //export const server = "http://162.241.115.55:80";
-export const server = "http://localhost:80";
+export const server = 'http://192.168.1.6:80';
+//export const server = "http://localhost:80";
 
 export const signUpAPI = (props) => {
-  let cookie = Cookies.get("_user");
-  if (cookie && cookie != "undefined") _params = cookie;
+  let cookie = Cookies.get('_user');
+  if (cookie && cookie != 'undefined') _params = cookie;
   return new Promise(async (resolve, reject) => {
     await axios
       .post(
-        server + "/user/signup",
+        server + '/user/signup',
         {
           username: props.username,
           password: props.pass,
@@ -18,10 +19,10 @@ export const signUpAPI = (props) => {
         },
         {
           timeout: 10000,
-        }
+        },
       )
       .then((response) => {
-        console.log("Create User Response>> " + JSON.stringify(response));
+        console.log('Create User Response>> ' + JSON.stringify(response));
         if (response.data.data.updateUser) {
           /* signIN({username: props.username, pass: props.pass})
           .then((res) => {
@@ -31,10 +32,10 @@ export const signUpAPI = (props) => {
             reject(err);
           }); */
           resolve(response.data.data.updateUser);
-        } else reject("Unknown Error");
+        } else reject('Unknown Error');
       })
       .catch((error) => {
-        console.log("Create User Error>> " + JSON.stringify(error));
+        console.log('Create User Error>> ' + JSON.stringify(error));
         reject(error);
       });
   });
@@ -44,7 +45,7 @@ export const signIN = (props) => {
   return new Promise(async (resolve, reject) => {
     await axios
       .post(
-        server + "/admin/api",
+        server + '/admin/api',
         {
           query: SIGNIN_MUTATION,
           variables: {
@@ -52,23 +53,24 @@ export const signIN = (props) => {
             pass: props.pass,
           },
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         },
         {
           timeout: 10000,
-        }
+        },
       )
       .then((response) => {
         console.log(
-          "SignIN response>> " + JSON.stringify(response.data.data.authenticate)
+          'SignIN response>> ' +
+            JSON.stringify(response.data.data.authenticate),
         );
         if (response.data.data.authenticate.token)
           resolve(response.data.data.authenticate);
-        else reject("User Authentication Failed");
+        else reject('User Authentication Failed');
       })
       .catch((error) => {
-        console.log("SignIN Error>>" + JSON.stringify(error));
+        console.log('SignIN Error>>' + JSON.stringify(error));
         reject(error);
       });
   });
