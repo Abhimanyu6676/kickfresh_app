@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
-import {Row, Col} from 'native-base';
 import {Checkout} from './Checkout';
+import {Row} from '../../../assets/components/Layouts';
 
 const Cartinfo = (props) => {
   const [Price, setPrice] = useState(0);
@@ -44,7 +44,9 @@ const Cartinfo = (props) => {
           Charges={Charges}
         />
       </View>
-      <Checkout Price={Price} />
+      <View stylw={ComStyles.checkout}>
+        <Checkout Price={Price} />
+      </View>
     </View>
   );
 };
@@ -58,44 +60,44 @@ const AddressSection = (props) => {
           ? MobStyles.AddressSection
           : PcStyles.AddressSection,
       ]}>
-      <View
-        style={{
-          borderWidth: 0,
-          borderRadius: 10,
-          padding: 10,
-        }}>
-        <Row>
-          <Col>
-            <Text style={[ComStyles.Text]}>Delivery Address</Text>
-            <Text style={[ComStyles.Text, {fontSize: 8, fontWeight: '600'}]}>
-              Tap Here to change address
-            </Text>
-          </Col>
-          <Col>
-            <Row>
-              <Text style={[ComStyles.Text]}>Paras Tierea, sector 137</Text>
-            </Row>
-            <Row style={{marginVertical: 10}}>
-              <Text style={[ComStyles.Text]}>Noida, UP, 201501</Text>
-            </Row>
-          </Col>
-        </Row>
-        <Row style={{backgroundColor: '#fff'}}>
-          <Col style={{flex: 1}}>
-            <Text style={[ComStyles.Text, {}]}>Delivery Instructions</Text>
-          </Col>
-          <Col style={{flex: 1.2}}>
-            <View
-              style={{
-                width: '100%',
-                height: 50,
-                backgroundColor: '#eee',
-                borderRadius: 5,
-                margin: 5,
-              }}></View>
-          </Col>
-        </Row>
-      </View>
+      {/*//Sec: DeliveryAddress */}
+      <Row _style={{width: '100%'}}>
+        <View style={{borderWidth: 0, flex: 1, paddingLeft: 10}}>
+          <Text style={[ComStyles.Text]}>Delivery Address</Text>
+          <Text style={[ComStyles.Text, {fontSize: 8, fontWeight: '600'}]}>
+            Tap Here to change address
+          </Text>
+        </View>
+        <View
+          style={{
+            borderWidth: 0,
+            flex: 1.4,
+            alignItems: 'flex-end',
+            padding: 10,
+          }}>
+          <Row>
+            <Text style={[ComStyles.Text]}>Paras Tierea, sector 137</Text>
+          </Row>
+          <Row style={{marginVertical: 10}}>
+            <Text style={[ComStyles.Text]}>Noida, UP, 201501</Text>
+          </Row>
+        </View>
+      </Row>
+      {/*//Sec: DeliveryInstructions */}
+      <Row style={{backgroundColor: '#fff'}}>
+        <View style={{flex: 1, borderWidth: 0, paddingLeft: 10}}>
+          <Text style={[ComStyles.Text]}>Delivery Instructions</Text>
+        </View>
+        <View style={{flex: 1.4, borderWidth: 0}}>
+          <View
+            style={{
+              height: 50,
+              backgroundColor: '#eee',
+              borderRadius: 5,
+              margin: 10,
+            }}></View>
+        </View>
+      </Row>
     </View>
   );
 };
@@ -109,54 +111,54 @@ const AmountSection = (props) => {
           ? MobStyles.AmountSection
           : PcStyles.AmountSection,
       ]}>
-      <View style={{width: '100%', height: '100%', borderWidth: 0}}>
+      <View style={{width: '100%', borderWidth: 0}}>
         <View style={[ComStyles.AmountRow]}>
-          <Col style={ComStyles.AmountCol1}>
+          <View style={ComStyles.AmountCol1}>
             <Text style={{fontSize: 16, fontWeight: '600', color: '#aaa'}}>
               Cart Price
             </Text>
-          </Col>
-          <Col style={ComStyles.AmountCol2}>
+          </View>
+          <View style={ComStyles.AmountCol2}>
             <Text style={{fontSize: 16, fontWeight: '600', color: '#aaa'}}>
               {props.Price ? props.Price : 0}
             </Text>
-          </Col>
+          </View>
         </View>
         <View style={[ComStyles.AmountRow, {display: 'none'}]}>
-          <Col style={ComStyles.AmountCol1}>
+          <View style={ComStyles.AmountCol1}>
             <Text style={{fontSize: 14, fontWeight: '400', color: '#0a0'}}>
               You Save
             </Text>
-          </Col>
-          <Col style={ComStyles.AmountCol2}>
+          </View>
+          <View style={ComStyles.AmountCol2}>
             <Text style={{fontSize: 14, fontWeight: '400', color: '#0a0'}}>
               20
             </Text>
-          </Col>
+          </View>
         </View>
         <View style={ComStyles.AmountRow}>
-          <Col style={ComStyles.AmountCol1}>
+          <View style={ComStyles.AmountCol1}>
             <Text style={{fontSize: 14, fontWeight: '400', color: '#a00'}}>
               Service % Tax Charge
             </Text>
-          </Col>
-          <Col style={ComStyles.AmountCol2}>
+          </View>
+          <View style={ComStyles.AmountCol2}>
             <Text style={{fontSize: 14, fontWeight: '400', color: '#a00'}}>
               {props.Charges ? props.Charges : 0}
             </Text>
-          </Col>
+          </View>
         </View>
         <View style={[ComStyles.AmountRow, {paddingVertical: 10}]}>
-          <Col style={ComStyles.AmountCol1}>
+          <View style={ComStyles.AmountCol1}>
             <Text style={{color: '#aaa', fontSize: 18, fontWeight: '600'}}>
               Payable Amount
             </Text>
-          </Col>
-          <Col style={ComStyles.AmountCol2}>
+          </View>
+          <View style={ComStyles.AmountCol2}>
             <Text style={{color: '#aaa', fontSize: 18, fontWeight: '600'}}>
               {props.Charges + props.Price}
             </Text>
-          </Col>
+          </View>
         </View>
       </View>
     </View>
@@ -169,14 +171,13 @@ const ComStyles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     borderWidth: 0,
-    borderRadius: 10,
-    alignSelf: 'center',
-    marginVertical: 20,
-  },
-  container2: {
+    width: '100%',
+    padding: 5,
     display: 'flex',
   },
-  AddressSection: {},
+  container2: {},
+  AddressSection: {borderWidth: 0},
+  AmountSection: {borderWidth: 0},
   AmountRow: {display: 'flex', flexDirection: 'row', paddingVertical: 5},
   AmountCol1: {
     marginLeft: 10,
@@ -187,16 +188,15 @@ const ComStyles = StyleSheet.create({
   Text: {
     color: '#aaa',
   },
+  checkout: {display: 'flex'},
 });
 
 const MobStyles = StyleSheet.create({
-  container: {
-    width: '90%',
-  },
+  container: {},
   container2: {
     flexDirection: 'column-reverse',
   },
-  AddressSection: {flex: 1},
+  AddressSection: {flex: 1, marginTop: 20},
   AmountSection: {flex: 1},
 });
 
@@ -205,9 +205,7 @@ const TabStyles = StyleSheet.create({
 });
 
 const PcStyles = StyleSheet.create({
-  container: {
-    width: '80%',
-  },
+  container: {},
   container2: {
     flexDirection: 'row',
   },

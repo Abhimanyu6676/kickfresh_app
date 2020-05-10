@@ -1,27 +1,21 @@
 {
   "expo": {
-    "name": "KickFresh",
-    "slug": "kickfresh",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "name": "Freshkick",
+    "slug": "freshkick",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/_logo.png",
     "scheme": "myapp",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/_logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

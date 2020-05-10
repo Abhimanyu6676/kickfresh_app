@@ -99,6 +99,7 @@ export default ItemType1 = (props) => {
               width: 100,
               height: 100,
             }}
+            placeholderSource={require("../../../../assets/loading_logo.png")}
             source={{
               uri:
                 server +
@@ -176,17 +177,17 @@ export default ItemType1 = (props) => {
 const ComStyles = StyleSheet.create({
   container: {
     width: 160,
+    backgroundColor: "#fff",
     marginVertical: 10,
     marginHorizontal: 5,
-    overflow: "hidden",
     alignSelf: "center",
     borderWidth: 0,
-    shadowColor: "#000",
+    shadowColor: "#aaa",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 0,
     },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.8,
     shadowRadius: 5,
     elevation: 2,
   },

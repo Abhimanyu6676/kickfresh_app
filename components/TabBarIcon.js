@@ -1,8 +1,8 @@
-import React from 'react';
-import {FontAwesome5} from '@expo/vector-icons';
+import React from "react";
+import { FontAwesome5 } from "@expo/vector-icons";
 
-import Colors from '../constants/Colors';
-import {Text, View} from 'react-native';
+import Colors from "../constants/Colors";
+import { Text, View } from "react-native";
 
 export default function TabBarIcon(props) {
   return (
@@ -12,11 +12,11 @@ export default function TabBarIcon(props) {
       style={{ marginBottom: -3 }}
       color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
     /> */
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ alignItems: "center", justifyContent: "center" }}>
       <FontAwesome5
         style={{
           color: props.focused ? Colors.tabIconSelected : Colors.tabIconDefault,
-          marginVertical: 2,
+          marginVertical: 1,
           fontSize: 20,
         }}
         name={props.name}
@@ -26,7 +26,8 @@ export default function TabBarIcon(props) {
           color: props.focused ? Colors.tabIconSelected : Colors.tabIconDefault,
           fontSize: 12,
           marginBottom: 2,
-        }}>
+        }}
+      >
         {props.title}
       </Text>
     </View>

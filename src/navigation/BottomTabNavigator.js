@@ -1,101 +1,147 @@
-import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import TabBarIcon from '../../components/TabBarIcon';
-import LinksScreen from '../screens/LinksScreen';
-import {Button, Icon, Row} from 'native-base';
-import StoreNavigation from './StoreNavigation';
-import {connect} from 'react-redux';
-import CartScreen from '../screens/CartScreen';
-import {Thumbnail} from 'native-base';
-import {FontAwesome, Ionicons} from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import TabBarIcon from "../../components/TabBarIcon";
+import StoreNavigation from "./StoreNavigation";
+import { connect } from "react-redux";
+import CartScreen from "../screens/CartScreen";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { primaryColor } from "../../assets/theme/global_colors";
+import { Row } from "../../assets/components/Layouts";
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'StoreNavigation';
+const INITIAL_ROUTE_NAME = "StoreNavigation";
+//const INITIAL_ROUTE_NAME = 'Cart';
+
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
 
 const bottomTabNavigator = (props) => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
+  const [dimensions, setDimensions] = useState({ window, screen });
+
+  const onDimensionChange = ({ window, screen }) => {
+    setDimensions({ window, screen });
+  };
+
+  useEffect(() => {
+    Dimensions.addEventListener("change", onDimensionChange);
+    return () => {
+      Dimensions.removeEventListener("change", onDimensionChange);
+    };
+  });
 
   navigation.setOptions({
+    headerStyle: [
+      ComStyles.headerStyle,
+      dimensions.window.width < 500
+        ? MobStyles.headerStyle
+        : PcStyles.headerStyle,
+    ],
     headerTitle: (props) => (
-      <View style={{paddingRight: 5}}>
+      <View
+        style={[
+          ComStyles.headerTitle,
+          dimensions.window.width < 500
+            ? MobStyles.headerTitle
+            : PcStyles.headerTitle,
+        ]}
+      >
         <Row>
-          <Text style={{fontWeight: 'bold', fontSize: 20, color: '#7a0'}}>
-            KickFresh
+          <Text
+            style={[
+              ComStyles.title,
+              dimensions.window.width < 500 ? MobStyles.title : PcStyles.title,
+            ]}
+          >
+            FreshKick
           </Text>
         </Row>
         <Row>
-          <Text style={{color: '#aaa'}}>Store to Your Door</Text>
+          <Text style={{ color: "#fff" }}>Store to Your Door</Text>
         </Row>
       </View>
     ),
     headerRight: () => (
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('USERSCREEN');
-            props.navigation.navigate('User');
-          }}
-          style={{
-            height: '100%',
-            backgroundColor: '#fff',
-            alignItems: 'center',
-            paddingHorizontal: 15,
-            flexDirection: 'row',
-          }}>
-          <Thumbnail
-            style={{width: 30, height: 30, display: 'none'}}
-            source={{
-              uri:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg',
+      <View
+        style={[
+          ComStyles.headerRight,
+          dimensions.window.width < 500
+            ? MobStyles.headerRight
+            : PcStyles.headerRight,
+        ]}
+      >
+        <Row
+          _style={[
+            ComStyles.headerRowOne,
+            dimensions.window.width < 500
+              ? MobStyles.headerRowOne
+              : PcStyles.headerRowOne,
+          ]}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              console.log("USERSCREEN");
+              props.navigation.navigate("User");
             }}
-          />
-          <Text
-            style={{color: '#aaa', fontWeight: '600', paddingHorizontal: 5}}>
-            SignIN To Order
-          </Text>
-        </TouchableOpacity>
-        <Button
-          transparent
-          onPress={() => {
-            navigation.navigate('Cart');
-          }}>
-          <View
             style={{
-              justifyContent: 'center',
-              paddingHorizontal: 10,
-              borderWidth: 0,
-            }}>
+              alignItems: "center",
+              paddingHorizontal: 15,
+              flexDirection: "row",
+            }}
+          >
+            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+              SignIN
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            transparent
+            onPress={() => {
+              navigation.navigate("Cart");
+            }}
+          >
             <View
               style={{
-                position: 'absolute',
-                top: -10,
-                right: 14,
-              }}>
-              <Text style={{color: '#aaa', fontWeight: 'bold'}}>
-                {props.cart.length ? props.cart.length : 0}
-              </Text>
-            </View>
-            <FontAwesome
-              style={{
-                color: '#aaa',
-                fontSize: 30,
-                width: 40,
-                height: 40,
+                justifyContent: "center",
+                paddingHorizontal: 10,
+                borderWidth: 0,
               }}
-              name="shopping-cart"
-            />
-          </View>
-        </Button>
+            >
+              <View
+                style={{
+                  backgroundColor: "#fff",
+                  paddingHorizontal: 2,
+                  paddingVertical: 1,
+                  borderRadius: 10,
+                  position: "absolute",
+                  top: -12,
+                  right: 0,
+                  height: props.cart.length > 9 ? 20 : 15,
+                  width: props.cart.length > 9 ? 20 : 15,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#0a0",
+                  }}
+                >
+                  {props.cart.length ? props.cart.length : 0}
+                </Text>
+              </View>
+              <FontAwesome5
+                style={{
+                  color: "#fff",
+                  fontSize: 25,
+                }}
+                name="cart-arrow-down"
+              />
+            </View>
+          </TouchableOpacity>
+        </Row>
       </View>
     ),
-  });
-
-  useEffect(() => {
-    //effect
-    return () => {
-      //cleanup
-    };
   });
 
   return (
@@ -104,8 +150,8 @@ const bottomTabNavigator = (props) => {
         name="StoreNavigation"
         component={StoreNavigation}
         options={{
-          title: '',
-          tabBarIcon: ({focused}) => (
+          title: "",
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="store-alt" title="Store" />
           ),
         }}
@@ -128,8 +174,8 @@ const bottomTabNavigator = (props) => {
         name="Cart"
         component={CartScreen}
         options={{
-          title: '',
-          tabBarIcon: ({focused}) => (
+          title: "",
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="cart-arrow-down" title="Cart" />
           ),
         }}
@@ -143,12 +189,46 @@ function getHeaderTitle(route) {
     route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
-    case 'Home':
-      return 'FreshKick';
-    case 'Links':
-      return 'Links to learn more';
+    case "Home":
+      return "FreshKick";
+    case "Links":
+      return "Links to learn more";
   }
 }
+
+import { StyleSheet } from "react-native";
+
+const ComStyles = StyleSheet.create({
+  headerStyle: {
+    backgroundColor: primaryColor,
+  },
+  headerTitle: { paddingRight: 5, borderWidth: 0 },
+  title: { fontWeight: "bold", fontSize: 20, color: "#fff" },
+  headerRight: { borderWidth: 0, paddingRight: 20 },
+  headerRowOne: {},
+});
+
+const MobStyles = StyleSheet.create({
+  headerStyle: {},
+  headerTitle: {},
+  title: { marginTop: 1 },
+  headerRight: {},
+  headerRowOne: { marginTop: 1 },
+});
+
+const TabStyles = StyleSheet.create({
+  headerStyle: {},
+  title: {},
+  headerRight: {},
+  headerRowOne: {},
+});
+
+const PcStyles = StyleSheet.create({
+  headerStyle: {},
+  title: {},
+  headerRight: {},
+  headerRowOne: {},
+});
 
 export default BottomTabNavigator = connect((state) => ({
   cart: state.cartReducer.cartList,

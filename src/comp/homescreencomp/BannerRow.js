@@ -74,15 +74,18 @@ export default BannerRow = (props) => {
               : PcStyles.ImageView,
             { width: width, height: height },
           ]}
-          loadingStyle={[
-            ComStyles.ImageLoad,
-            props.dimensions.window.width < 500
-              ? MobStyles.ImageLoad
-              : props.dimensions.window.width < 1000
-              ? TabStyles.ImageLoad
-              : PcStyles.ImageLoad,
-            { width: width, height: height },
-          ]}
+          loadingStyle={
+            ([
+              ComStyles.ImageLoad,
+              props.dimensions.window.width < 500
+                ? MobStyles.ImageLoad
+                : props.dimensions.window.width < 1000
+                ? TabStyles.ImageLoad
+                : PcStyles.ImageLoad,
+              { width: width, height: height },
+            ],
+            { size: "large" })
+          }
           source={{
             uri: item.uri,
           }}
@@ -121,12 +124,11 @@ import { StyleSheet } from "react-native";
 
 const ComStyles = StyleSheet.create({
   container: {
-    borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
   },
-  ImageView: { borderWidth: 0 },
+  ImageView: { borderWidth: 0, borderRadius: 10, overflow: "hidden" },
   ImageLoad: { color: "#aaa" },
 });
 

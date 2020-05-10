@@ -1,8 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const server = "http://162.241.115.55:80";
-//export const server = "http://localhost:80"
+//export const server = "http://162.241.115.55:80";
+export const server = "http://localhost:80";
 
 export const signUpAPI = (props) => {
   let cookie = Cookies.get("_user");

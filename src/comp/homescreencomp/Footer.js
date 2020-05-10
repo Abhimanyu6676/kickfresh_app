@@ -1,62 +1,101 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
+import {FontAwesome5} from '@expo/vector-icons';
+
+const window = Dimensions.get('window');
 
 export const Footer = (props) => {
   return (
-    <View
-      style={[
-        ComStyles.container,
-        props.dimensions.window.width < 500
-          ? MobStyles.container
-          : PcStyles.container,
-      ]}>
+    <View style={{marginBottom: 30}}>
       <View
         style={[
-          ComStyles.block1,
-          props.dimensions.window.width < 500
-            ? MobStyles.block1
-            : PcStyles.block1,
+          ComStyles.container,
+          window.width < 500 ? MobStyles.container : PcStyles.container,
         ]}>
-        <Text style={ComStyles.heading}>FreshKick</Text>
-        <Text style={ComStyles.text}>About Us</Text>
-        <Text style={ComStyles.text}>Contact US</Text>
-        <Text style={ComStyles.text}>Order Tracking</Text>
-        <Text style={ComStyles.text}>Payment Help</Text>
-        <Text style={ComStyles.text}>Payment Terms</Text>
-        <Text style={ComStyles.text}>Return Policy</Text>
-        <Text style={ComStyles.text}>Terms & Conditions</Text>
-        <Text style={ComStyles.text}>Privacy Policy</Text>
+        <View
+          style={[
+            ComStyles.block1,
+            window.width < 500 ? MobStyles.block1 : PcStyles.block1,
+          ]}>
+          <Text style={ComStyles.heading}>FreshKick</Text>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('AboutUs');
+            }}>
+            <Text style={ComStyles.text}>About Us</Text>
+          </TouchableOpacity>
+          <Text style={ComStyles.text}>Order Tracking</Text>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('PaymentTerms');
+            }}>
+            <Text style={ComStyles.text}>Payment Terms</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('ReturnPolicy');
+            }}>
+            <Text style={ComStyles.text}>Return Policy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('Terms');
+            }}>
+            <Text style={ComStyles.text}>Terms & Conditions</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('PrivacyPolicy');
+            }}>
+            <Text style={ComStyles.text}>Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={[
+            ComStyles.block2,
+            window.width < 500 ? MobStyles.block2 : PcStyles.block2,
+          ]}>
+          <Text style={ComStyles.heading}>Order From</Text>
+          <Text style={ComStyles.text}>Website</Text>
+          <Text style={ComStyles.text}>KickFresh on Play Store</Text>
+          <Text style={ComStyles.text}>KickFresh on App Store</Text>
+          <Text style={ComStyles.text}>WhatsApp Number</Text>
+        </View>
+        <View
+          style={[
+            ComStyles.block3,
+            window.width < 500 ? MobStyles.block3 : PcStyles.block3,
+          ]}>
+          <Text style={ComStyles.heading}>Newsletter</Text>
+          <Text style={ComStyles.text}>
+            Submite to stay updated with latest Product and offers
+          </Text>
+        </View>
       </View>
-      <View
-        style={[
-          ComStyles.block2,
-          props.dimensions.window.width < 500
-            ? MobStyles.block2
-            : PcStyles.block2,
-        ]}>
-        <Text style={ComStyles.heading}>Order From</Text>
-        <Text style={ComStyles.text}>Website</Text>
-        <Text style={ComStyles.text}>KickFresh on Play Store</Text>
-        <Text style={ComStyles.text}>KickFresh on App Store</Text>
-        <Text style={ComStyles.text}>WhatsApp Number</Text>
-      </View>
-      <View
-        style={[
-          ComStyles.block3,
-          props.dimensions.window.width < 500
-            ? MobStyles.block3
-            : PcStyles.block3,
-        ]}>
-        <Text style={ComStyles.heading}>Newsletter</Text>
-        <Text style={ComStyles.text}>
-          Submite to stay updated with latest Product and offers
-        </Text>
-      </View>
+      <Row>
+        <FontAwesome5
+          style={{color: '#fff', fontSize: 25, paddingHorizontal: 10}}
+          name="facebook"
+        />
+        <FontAwesome5
+          style={{color: '#fff', fontSize: 25, paddingHorizontal: 10}}
+          name="instagram"
+        />
+        <FontAwesome5
+          style={{color: '#fff', fontSize: 25, paddingHorizontal: 10}}
+          name="twitter"
+        />
+        <FontAwesome5
+          style={{color: '#fff', fontSize: 25, paddingHorizontal: 10}}
+          name="linkedin"
+        />
+      </Row>
     </View>
   );
 };
 
 import {StyleSheet} from 'react-native';
+import {Row} from '../../../assets/components/Layouts';
 
 const ComStyles = StyleSheet.create({
   container: {
@@ -73,7 +112,7 @@ const ComStyles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 10,
   },
-  text: {color: '#fff', fontSize: 14, marginVertical: 2},
+  text: {color: '#fff', fontSize: 14, marginVertical: 3},
 });
 
 const MobStyles = StyleSheet.create({

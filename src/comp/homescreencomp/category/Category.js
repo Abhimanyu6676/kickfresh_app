@@ -12,8 +12,9 @@ export default Category = (props) => {
       <View
         style={{
           flexDirection: "row",
+          backgroundColor: "#fff",
           marginHorizontal: 3,
-          borderRadius: 5,
+          borderRadius: 6,
           marginTop: 15,
           shadowColor: "#000",
           shadowOffset: {
@@ -21,9 +22,10 @@ export default Category = (props) => {
             height: 0,
           },
           shadowOpacity: 0.25,
-          shadowRadius: 5,
-          elevation: 3,
+          shadowRadius: 6,
+          elevation: 2,
           padding: 2,
+          marginBottom: 5,
         }}
       >
         <Col style={{ overflow: "hidden", flex: 4 }}>
@@ -125,13 +127,27 @@ export default Category = (props) => {
     return (
       <View style={{ marginLeft: 0 }}>
         <GridView
-          itemDimension={100}
+          itemDimension={120}
           spacing={10}
           items={props.SubCategory}
           renderItem={(item, index) => (
             <TouchableOpacity
               key={index}
-              style={{ alignSelf: "center" }}
+              style={{
+                alignSelf: "center",
+                backgroundColor: "#fff",
+                borderRadius: 4,
+                width: 120,
+                height: 160,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 0,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 5,
+                elevation: 1,
+              }}
               onPress={() => {
                 navigation.navigate("SubCategory", {
                   SubCategory: item.item,
@@ -140,32 +156,31 @@ export default Category = (props) => {
                 });
               }}
             >
-              <View style={{ width: 100 }}>
-                <View
-                  //IMAGE
-                  style={{
-                    height: 100,
-                    width: 100,
-                    borderWidth: 0,
+              <View style={{ alignItems: "center", padding: 2 }}>
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={{
+                    uri:
+                      server +
+                      "/ProductImages/" +
+                      props.Category +
+                      "/" +
+                      item.item.SubCategory +
+                      ".png",
                   }}
-                >
-                  <Image
-                    style={{ width: 100, height: 100 }}
-                    source={{
-                      uri:
-                        server +
-                        "/ProductImages/" +
-                        props.Category +
-                        "/" +
-                        item.item.SubCategory +
-                        ".png",
-                    }}
-                  />
-                </View>
+                />
+              </View>
+              <View
+                style={{
+                  justifyContent: "space-around",
+                  paddingHorizontal: 2,
+                  flex: 1,
+                }}
+              >
                 <Text
                   style={{
                     color: "#aaa",
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: "600",
                     textAlign: "center",
                   }}
@@ -177,6 +192,7 @@ export default Category = (props) => {
                     backgroundColor: "#0a0",
                     paddingHorizontal: 5,
                     paddingVertical: 2,
+                    marginVertical: 2,
                     alignSelf: "center",
                     borderRadius: 10,
                   }}

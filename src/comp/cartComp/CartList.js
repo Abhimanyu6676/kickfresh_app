@@ -15,7 +15,7 @@ const Cartlist = (props) => {
       <Text style={{color: '#aaa', fontSize: 15, alignSelf: 'center'}}>
         You have {props.cart.length ? props.cart.length : 0} Items in your cart
       </Text>
-      <CartItems />
+      <CartItems dimensions={props.dimensions} />
     </View>
   );
 };
@@ -28,7 +28,7 @@ const ComStyles = StyleSheet.create({
     borderWidth: 0,
     alignSelf: 'center',
     borderRadius: 10,
-    minHeight: '40%',
+    minHeight: 300,
   },
 });
 

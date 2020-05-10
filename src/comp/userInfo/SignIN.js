@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Form, Item, Input, Label} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUpAPI, signIN} from '../../services/REST';
+import {signUpAPI} from '../../services/REST';
 import {UserAction} from '../../redux/actions/UserAction';
 import Cookies from 'js-cookie';
 import {
@@ -13,17 +13,17 @@ import {
 } from '@expo/vector-icons';
 import {LinearGradient} from 'expo-linear-gradient';
 
-export default SignUP = (props) => {
+export default SignIN = (props) => {
   const [username, setUsername] = useState('Abhimanyu');
   const [pass, setPass] = useState('12345678');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('SIGNUP');
+    console.log('SIGNIN');
     return () => {};
   });
 
-  const handleSignUP = () => {
+  const handleSignIN = () => {
     signUpAPI({username, pass})
       .then((res) => {
         console.log('signUpAPI Response>> ' + JSON.stringify(res));
@@ -50,23 +50,9 @@ export default SignUP = (props) => {
           marginVertical: 15,
           marginLeft: 10,
         }}>
-        Create Account
+        Login To Your Account
       </Text>
       <Form>
-        <View style={ComStyles.field}>
-          <View style={{borderWidth: 0, justifyContent: 'center'}}>
-            <FontAwesome
-              name="sort-alpha-asc"
-              style={{fontSize: 18, color: '#0a0', paddingHorizontal: 15}}
-            />
-          </View>
-          <View style={{flex: 1, borderWidth: 0}}>
-            <Item floatingLabel>
-              <Label>Username</Label>
-              <Input onChangeText={(text) => setUsername(text)} />
-            </Item>
-          </View>
-        </View>
         <View style={ComStyles.field}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <MaterialIcons
@@ -81,20 +67,7 @@ export default SignUP = (props) => {
             </Item>
           </View>
         </View>
-        <View style={ComStyles.field}>
-          <View style={{borderWidth: 0, justifyContent: 'center'}}>
-            <MaterialCommunityIcons
-              name="textbox-password"
-              style={{fontSize: 18, color: '#0a0', paddingHorizontal: 15}}
-            />
-          </View>
-          <View style={{flex: 1, borderWidth: 0}}>
-            <Item floatingLabel>
-              <Label>Password</Label>
-              <Input />
-            </Item>
-          </View>
-        </View>
+
         <View style={ComStyles.field}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <MaterialCommunityIcons
@@ -104,7 +77,7 @@ export default SignUP = (props) => {
           </View>
           <View style={{flex: 1, borderWidth: 0}}>
             <Item floatingLabel last>
-              <Label>Re-Type Password</Label>
+              <Label>Password</Label>
               <Input onChangeText={(text) => setPass(text)} />
             </Item>
           </View>
@@ -132,7 +105,7 @@ export default SignUP = (props) => {
               justifyContent: 'flex-end',
               flexDirection: 'row',
             }}
-            onPress={handleSignUP}>
+            onPress={handleSignIN}>
             <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18}}>
               SignUP
             </Text>
@@ -158,10 +131,10 @@ export default SignUP = (props) => {
           flexDirection: 'row',
           borderWidth: 0,
         }}>
-        <Text style={{color: '#aaa'}}>Already have an account</Text>
-        <TouchableOpacity onPress={() => props.switcher('IN')}>
+        <Text style={{color: '#aaa'}}>Don't have an account</Text>
+        <TouchableOpacity onPress={() => props.switcher('UP')}>
           <Text style={{color: '#0a0', fontWeight: 'bold', marginLeft: 10}}>
-            LogIN
+            SignUP
           </Text>
         </TouchableOpacity>
       </View>

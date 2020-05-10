@@ -10,10 +10,7 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import Background from "./services/Background";
-
-const host = "http://162.241.115.55";
-//const host = "http://192.168.1.90:80";
-//const host = 'http://localhost';
+import { server } from "./services/REST";
 
 //Apollo Client Configuration
 const client = new ApolloClient({
@@ -29,7 +26,7 @@ const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }), */
   link: new HttpLink({
-    uri: host + "/admin/api",
+    uri: server + "/admin/api",
     credentials: "same-origin",
   }),
   /* ]), */
