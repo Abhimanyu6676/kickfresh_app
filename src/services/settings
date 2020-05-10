@@ -1,0 +1,128 @@
+{
+    "editor.formatOnSave": true,
+    "window.zoomLevel": 0,
+    "search.useGlobalIgnoreFiles": true,
+    "githubPullRequests.remotes": [
+        "https://github.com/Abhimanyu6676/HueliteWeb.git",
+        "https://github.com/Abhimanyu6676/HueliteWeb.git"
+    ],
+    "files.autoSaveDelay": 60000,
+    "todohighlight.isEnable": true,
+    "todohighlight.isCaseSensitive": true,
+    "todohighlight.maxFilesForSearch": 5120,
+    "todohighlight.toggleURI": false,
+    "todohighlight.keywords": [
+        "DEBUG:",
+        "REVIEW:",
+        {
+            "text": "NOTE:",
+            "color": "#f00",
+            "backgroundColor": "yellow",
+            "overviewRulerColor": "grey"
+        },
+        {
+            "text": "\\(([^)]+)\\)",
+            "color": "#f00",
+            "backgroundColor": "yellow",
+            "overviewRulerColor": "grey"
+        },
+        {
+            "text": "///",
+            "color": "#fff",
+            "backgroundColor": "#0f0",
+            "overviewRulerColor": "grey"
+        },
+        {
+            "text": "EXP_START:",
+            "color": "#fff",
+            "isWholeLine": false,
+        },
+        {
+            "text": "EXP_STOP:",
+            "color": "#fff",
+            "isWholeLine": false,
+        },
+        {
+            "text": "Sec:",
+            "color": "#fff",
+            "borderRadius": "0px",
+            "backgroundColor": "#ff8080",
+            "isWholeLine": true,
+        },
+        {
+            "text": "//::",
+            "border": "0px solid red",
+            "color": "#fff",
+            "borderRadius": "3px",
+            "backgroundColor": "#2a0",
+            "isWholeLine": true,
+        },
+        {
+            "text": "borderWidth",
+            "color": "#273746",
+            "backgroundColor": "#D1F2EB",
+            "isWholeLine": false,
+        },
+        {
+            "text": "TODO:",
+            "color": "#0ff",
+            "border": "0px solid red",
+            "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "#000000",
+            "isWholeLine": true,
+            //other styling properties goes here ...
+        },
+        {
+            "text": "//-->:",
+            "color": "#FF6100",
+            "borderColor": "#a00",
+            "border": "0px",
+            "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "#FFDD00",
+            "isWholeLine": false,
+            //other styling properties goes here ...
+        },
+        {
+            "text": "//--",
+            "color": "#FFFEF8",
+            "border": "0px",
+            "borderRadius": "0px", //NOTE: using borderRadius along with `border` or you will see nothing change
+            "isWholeLine": true,
+            "backgroundColor": "#000000",
+            //other styling properties goes here ...
+        },
+    ],
+    //"todohighlight.keywordsPattern": "|TODO:|FIXME:|\\(([^)]+)\\)|**<---->**", //highlight `TODO:`,`FIXME:` or content between parentheses
+    "todohighlight.defaultStyle": {
+        "color": "red",
+        "backgroundColor": "#ffab00",
+        "overviewRulerColor": "#ffab00",
+        "cursor": "pointer",
+        "border": "1px solid #eee",
+        "borderRadius": "2px",
+        "isWholeLine": false,
+        //other styling properties goes here ...
+    },
+    "todohighlight.include": [
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.html",
+        "**/*.php",
+        "**/*.css",
+        "**/*.scss"
+    ],
+    "todohighlight.exclude": [
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.vscode/**",
+        "**/.github/**",
+        "**/_output/**",
+        "**/*.min.*",
+        "**/*.map",
+        "**/.next/**"
+    ]
+}
