@@ -24,6 +24,7 @@
     "expo": "^37.0.8",
     "expo-asset": "~8.1.3",
     "expo-constants": "~9.0.0",
+    "expo-linear-gradient": "~8.1.0",
     "expo-web-browser": "~8.1.0",
     "graphql": "^15.0.0",
     "js-cookie": "^2.2.1",
@@ -37,12 +38,12 @@
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
+    "react-native-simple-dialogs": "^1.2.1",
     "react-native-snap-carousel": "^3.9.0",
     "react-native-super-grid": "^3.2.0",
     "react-native-web": "^0.11.7",
     "react-redux": "^7.2.0",
-    "redux": "^4.0.5",
-    "expo-linear-gradient": "~8.1.0"
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

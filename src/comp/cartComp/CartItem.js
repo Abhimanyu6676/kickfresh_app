@@ -7,6 +7,10 @@ import {AddToCart, RemoveFromCart} from '../../services/CartUpdate';
 import ImageLoad from 'react-native-image-placeholder';
 import {server} from '../../services/REST';
 import {Row} from '../../../assets/components/Layouts';
+import {
+  primaryColor,
+  secondaryColor,
+} from '../../../assets/theme/global_colors';
 
 export default Cartitems = (props) => {
   const cart = useSelector((state) => state.cartReducer.cartList);
@@ -92,7 +96,7 @@ const ListItem = (props) => {
           {props.item.ProductName}
         </Text>
         <Text style={{color: '#aaa'}}>500gms</Text>
-        <Text style={{color: '#0a0', fontWeight: 'bold', marginTop: 5}}>
+        <Text style={{color: primaryColor, fontWeight: 'bold', marginTop: 5}}>
           Rs 32
         </Text>
       </View>

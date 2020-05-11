@@ -31,7 +31,7 @@ export default SignUP = (props) => {
           console.log('user>> ' + JSON.stringify(res.username));
           const u = res;
           Cookies.set('_user', res.username);
-          Cookies.set('_userData', res);
+          Cookies.set('_userObj', res);
           dispatch(UserAction({User: u}));
         }
       })

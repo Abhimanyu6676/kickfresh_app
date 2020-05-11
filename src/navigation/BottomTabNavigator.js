@@ -3,11 +3,12 @@ import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../../components/TabBarIcon';
 import StoreNavigation from './StoreNavigation';
-import {connect} from 'react-redux';
+import {connect, useSelector, useDispatch} from 'react-redux';
 import CartScreen from '../screens/CartScreen';
-import {FontAwesome5} from '@expo/vector-icons';
+import {FontAwesome5, FontAwesome, EvilIcons} from '@expo/vector-icons';
 import {primaryColor} from '../../assets/theme/global_colors';
-import {Row} from '../../assets/components/Layouts';
+import {Row, Col} from '../../assets/components/Layouts';
+import {showLocationDialogAction} from '../redux/actions/LocationAction';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'StoreNavigation';
@@ -19,6 +20,13 @@ const screen = Dimensions.get('screen');
 const bottomTabNavigator = (props) => {
   const {navigation, route} = props;
   const [dimensions, setDimensions] = useState({window, screen});
+  const showLocationDialog = useSelector(
+    (state) => state.locationReducer.showLocationDialog,
+  );
+  const currentLocation = useSelector(
+    (state) => state.locationReducer.currentLocation,
+  );
+  const dispatch = useDispatch();
 
   const onDimensionChange = ({window, screen}) => {
     setDimensions({window, screen});
@@ -75,6 +83,34 @@ const bottomTabNavigator = (props) => {
               ? MobStyles.headerRowOne
               : PcStyles.headerRowOne,
           ]}>
+          {/*//Sec: 'location' */}
+          <TouchableOpacity
+            onPress={() => {
+              console.log('LOCATION');
+              //if (!showLocationDialog)
+              dispatch(
+                showLocationDialogAction({
+                  showLocationDialog: !showLocationDialog,
+                }),
+              );
+            }}
+            style={{
+              alignItems: 'center',
+              paddingHorizontal: 10,
+              flexDirection: 'row',
+            }}>
+            <Col _style={{alignItems: 'center'}}>
+              {!currentLocation && <Text style={{color: '#fff'}}>Select</Text>}
+              {!currentLocation && (
+                <Text style={{color: '#fff'}}>Location</Text>
+              )}
+              {currentLocation && (
+                <Text style={{color: '#fff'}}>{currentLocation}</Text>
+              )}
+            </Col>
+            <EvilIcons name="location" style={{fontSize: 25, color: '#fff'}} />
+          </TouchableOpacity>
+          {/*//Sec: 'User' */}
           <TouchableOpacity
             onPress={() => {
               console.log('USERSCREEN');
@@ -82,13 +118,15 @@ const bottomTabNavigator = (props) => {
             }}
             style={{
               alignItems: 'center',
-              paddingHorizontal: 15,
+              paddingHorizontal: 10,
               flexDirection: 'row',
             }}>
-            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-              SignIN
-            </Text>
+            <FontAwesome
+              name="user-circle"
+              style={{fontSize: 25, color: '#fff'}}
+            />
           </TouchableOpacity>
+          {/*//Sec: 'Cart' */}
           <TouchableOpacity
             transparent
             onPress={() => {
@@ -124,7 +162,7 @@ const bottomTabNavigator = (props) => {
               <FontAwesome5
                 style={{
                   color: '#fff',
-                  fontSize: 25,
+                  fontSize: 22,
                 }}
                 name="cart-arrow-down"
               />

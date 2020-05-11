@@ -1,4 +1,6 @@
 export const reduxConstants = {
   CART_LIST: 'CART_LIST',
   USER: 'USER',
+  SHOW_LOCATION_DIALOG: 'SHOW_LOCATION_DIALOG',
+  LOCATION_CITY: 'LOCATION_CITY',
 };

@@ -7,6 +7,10 @@ import {cartListAction} from '../../../redux/actions/CartListAction';
 import {AddToCart, RemoveFromCart} from '../../../services/CartUpdate';
 import ImageLoad from 'react-native-image-placeholder';
 import {server} from '../../../services/REST';
+import {
+  primaryColor,
+  secondaryColor,
+} from '../../../../assets/theme/global_colors';
 
 export default ItemType1 = (props) => {
   const [quantity, setQuantity] = useState(0);
@@ -57,6 +61,7 @@ export default ItemType1 = (props) => {
           ? MobStyles.container
           : PcStyles.container,
       ]}>
+      {/*//Sec: <Product Images -- Offer> */}
       <View
         style={{
           width: '100%',
@@ -64,22 +69,24 @@ export default ItemType1 = (props) => {
           justifyContent: 'center',
           padding: 10,
         }}>
+        {/*//Sec: <<Product Offer>> */}
         <View
           style={{
             position: 'absolute',
             top: 10,
             left: 10,
             alignSelf: 'flex-start',
-            backgroundColor: '#0a0',
+            backgroundColor: secondaryColor,
             borderRadius: 10,
-            paddingHorizontal: 4,
+            paddingHorizontal: 8,
             paddingVertical: 2,
             zIndex: 2,
           }}>
-          <Text style={{fontSize: 10, fontWeight: '600', color: '#fff'}}>
+          <Text style={{fontSize: 10, fontWeight: 'bold', color: primaryColor}}>
             15% off
           </Text>
         </View>
+        {/*//Sec: <<Product Image>> */}
         <View
           style={[
             ComStyles.itemImage,
@@ -87,27 +94,6 @@ export default ItemType1 = (props) => {
               ? MobStyles.itemImage
               : PcStyles.itemImage,
           ]}>
-          {/* <ImageLoad
-            source={{
-              uri:
-                server +
-                '/ProductImages/' +
-                props.item.Category +
-                '/' +
-                props.item.SubCategory +
-                '/' +
-                props.item.ProductName +
-                '.png',
-            }}
-            style={{width: 100, height: 100}}
-            loadingStyle={{
-              size: 'large',
-              color: '#aaa',
-              width: 100,
-              height: 100,
-            }}
-            placeholderSource={require('../../../../assets/loading_logo.png')}
-          /> */}
           <Image
             style={{width: 100, height: 100, position: 'absolute'}}
             source={require('../../../../assets/loading_logo.png')}
@@ -128,7 +114,24 @@ export default ItemType1 = (props) => {
           />
         </View>
       </View>
+      {/*//Sec: <'Product Info and price'> */}
       <View>
+        {/*//Sec: <<Product Name>> */}
+        <Row style={{alignItems: 'center', maxHeight: 35}}>
+          <Text
+            style={{
+              paddingHorizontal: 8,
+              paddingTop: 2,
+              fontSize: 14,
+              fontWeight: '700',
+              height: 35,
+              color: '#777',
+              borderWidth: 0,
+            }}>
+            {props.item.ProductName}
+          </Text>
+        </Row>
+        {/*//Sec: <<Product Price>> */}
         <Row>
           <Text
             style={{
@@ -137,7 +140,7 @@ export default ItemType1 = (props) => {
               fontWeight: '700',
               color: '#777',
             }}>
-            {props.item.Price}
+            Rs-{props.item.Price ? props.item.Price : 20}
           </Text>
           <Text
             style={{
@@ -147,29 +150,16 @@ export default ItemType1 = (props) => {
               color: '#aaa',
               alignSelf: 'flex-end',
             }}>
-            {parseInt(props.item.Price) + 5}
+            {props.item.Price ? parseInt(props.item.Price) + 5 : 25}
           </Text>
         </Row>
+        {/*//Sec: <<Product Quantity>> */}
         <Row>
           <Text
             style={{
               paddingHorizontal: 8,
               paddingTop: 2,
               fontSize: 12,
-              fontWeight: '700',
-              color: '#777',
-              height: 30,
-              borderWidth: 0,
-            }}>
-            {props.item.ProductName}
-          </Text>
-        </Row>
-        <Row>
-          <Text
-            style={{
-              paddingHorizontal: 8,
-              paddingTop: 2,
-              fontSize: 10,
               fontWeight: '600',
               color: '#777',
             }}>
@@ -177,6 +167,7 @@ export default ItemType1 = (props) => {
           </Text>
         </Row>
       </View>
+      {/*//Sec: <Quantity> */}
       <View style={{paddingVertical: 6, paddingHorizontal: 10}}>
         <QuantityView2 Quantity={quantity} Add={Add} Remove={Remove} />
       </View>
@@ -223,3 +214,27 @@ const PcStyles = StyleSheet.create({
   container: {},
   itemImage: {},
 });
+
+{
+  /* <ImageLoad
+            source={{
+              uri:
+                server +
+                '/ProductImages/' +
+                props.item.Category +
+                '/' +
+                props.item.SubCategory +
+                '/' +
+                props.item.ProductName +
+                '.png',
+            }}
+            style={{width: 100, height: 100}}
+            loadingStyle={{
+              size: 'large',
+              color: '#aaa',
+              width: 100,
+              height: 100,
+            }}
+            placeholderSource={require('../../../../assets/loading_logo.png')}
+          /> */
+}

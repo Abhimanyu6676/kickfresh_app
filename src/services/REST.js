@@ -5,9 +5,17 @@ import Cookies from 'js-cookie';
 export const server = 'http://192.168.1.6:80';
 //export const server = "http://localhost:80";
 
+/**
+ *
+ * @param {props- username, pass}
+ *      - props
+ *        - - username
+ *        - - pass
+ */
 export const signUpAPI = (props) => {
-  let cookie = Cookies.get('_user');
+  let cookie = Cookies.get('_userObj');
   if (cookie && cookie != 'undefined') _params = cookie;
+  console.log('_user:param>> ' + JSON.stringify(_params));
   return new Promise(async (resolve, reject) => {
     await axios
       .post(

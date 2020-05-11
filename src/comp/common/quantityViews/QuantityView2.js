@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {FontAwesome} from '@expo/vector-icons';
+import {
+  primaryColor,
+  secondaryColor,
+} from '../../../../assets/theme/global_colors';
 
 export default AddView = (props) => {
   const add = () => {
@@ -17,7 +21,7 @@ export default AddView = (props) => {
           <TouchableOpacity style={styles.RemoveButton} onPress={remove}>
             <FontAwesome
               name="minus"
-              style={[, { color: "#fff", fontSize: 14 }]}
+              style={[, {color: primaryColor, fontSize: 14}]}
             />
           </TouchableOpacity>
           <View style={styles.centerText}>
@@ -26,7 +30,7 @@ export default AddView = (props) => {
           <TouchableOpacity style={styles.AddButton} onPress={add}>
             <FontAwesome
               name="plus"
-              style={[, { color: "#fff", fontSize: 14 }]}
+              style={[, {color: primaryColor, fontSize: 14}]}
             />
           </TouchableOpacity>
         </View>
@@ -34,32 +38,30 @@ export default AddView = (props) => {
     );
   } else {
     return (
-      <TouchableOpacity style={{ height: 30 }} onPress={add}>
+      <TouchableOpacity style={{height: 30}} onPress={add}>
         <View style={styles.container}>
           <View
             style={{
               flex: 3.5,
-              backgroundColor: "#af0",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
+              backgroundColor: '#af0',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
               ADD
             </Text>
           </View>
           <View
             style={{
               flex: 1.5,
-              backgroundColor: "#0f9",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+              backgroundColor: '#0f9',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             <FontAwesome
               name="plus"
               style={{
-                color: "#fff",
+                color: '#fff',
                 fontSize: 18,
               }}
             />
@@ -73,51 +75,51 @@ export default AddView = (props) => {
 const styles = StyleSheet.create({
   container: {
     height: 30,
-    width: "100%",
+    width: '100%',
     flex: 1,
-    flexDirection: "row",
-    overflow: "hidden",
+    flexDirection: 'row',
+    overflow: 'hidden',
     borderRadius: 5,
   },
   ItemAddView: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 0,
-    borderColor: "#f00",
+    borderColor: '#f00',
   },
   AddButton: {
     width: 30,
     height: 30,
-    backgroundColor: "#0a0",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: secondaryColor,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 0,
     borderRadius: 4,
   },
   RemoveButton: {
     width: 30,
     height: 30,
-    backgroundColor: "#0a0",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: secondaryColor,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 0,
     borderRadius: 4,
   },
   centerText: {
     flex: 0.8,
-    justifyContent: "center",
-    alignContent: "center",
+    justifyContent: 'center',
+    alignContent: 'center',
     borderWidth: 0,
   },
   amountText: {
     fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#aaa",
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#aaa',
   },
   button: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
 });

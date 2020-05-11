@@ -2,7 +2,10 @@ import React from 'react';
 import {Row, Col, View, Text, Button} from 'native-base';
 import {FontAwesome5} from '@expo/vector-icons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {primaryColor} from '../../../../assets/theme/global_colors';
+import {
+  primaryColor,
+  secondaryColor,
+} from '../../../../assets/theme/global_colors';
 
 export const QuantityView1 = (props) => {
   return (
@@ -12,13 +15,13 @@ export const QuantityView1 = (props) => {
           <TouchableOpacity onPress={props.Remove}>
             <View
               style={{
-                backgroundColor: primaryColor,
+                backgroundColor: secondaryColor,
                 paddingHorizontal: 8,
                 paddingVertical: 8,
                 borderRadius: 5,
               }}>
               <FontAwesome5
-                style={{color: '#fff', fontSize: 14}}
+                style={{color: primaryColor, fontSize: 14}}
                 name="minus"
               />
             </View>
@@ -29,7 +32,7 @@ export const QuantityView1 = (props) => {
             paddingHorizontal: 15,
             justifyContent: 'center',
           }}>
-          <Text style={{fontSize: 18, fontWeight: 'bold', color: '#aaa'}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold', color: primaryColor}}>
             {props.qty ? props.qty : 0}
           </Text>
         </View>
@@ -37,12 +40,15 @@ export const QuantityView1 = (props) => {
           <TouchableOpacity onPress={props.Add}>
             <View
               style={{
-                backgroundColor: primaryColor,
+                backgroundColor: secondaryColor,
                 paddingHorizontal: 8,
                 paddingVertical: 8,
                 borderRadius: 5,
               }}>
-              <FontAwesome5 style={{color: '#fff', fontSize: 14}} name="plus" />
+              <FontAwesome5
+                style={{color: primaryColor, fontSize: 14}}
+                name="plus"
+              />
             </View>
           </TouchableOpacity>
         </View>

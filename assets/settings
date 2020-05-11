@@ -43,10 +43,45 @@
             "isWholeLine": false,
         },
         {
-            "text": "Sec:",
+            "text": "Sec1:",
             "color": "#fff",
             "borderRadius": "0px",
             "backgroundColor": "#ff8080",
+            "isWholeLine": true,
+        },
+        {
+            "text": "Sec2:",
+            "color": "#fff",
+            "borderRadius": "0px",
+            "backgroundColor": "#82E0AA",
+            "isWholeLine": true,
+        },
+        {
+            "text": "Sec3:",
+            "color": "#fff",
+            "borderRadius": "0px",
+            "backgroundColor": "#5DADE2",
+            "isWholeLine": true,
+        },
+        {
+            "text": "Sec4:",
+            "color": "#fff",
+            "borderRadius": "0px",
+            "backgroundColor": "#BB8FCE",
+            "isWholeLine": true,
+        },
+        {
+            "text": "Sec5:",
+            "color": "#fff",
+            "borderRadius": "0px",
+            "backgroundColor": "#F8C471",
+            "isWholeLine": true,
+        },
+        {
+            "text": "Sec6:",
+            "color": "#fff",
+            "borderRadius": "0px",
+            "backgroundColor": "#D98880",
             "isWholeLine": true,
         },
         {
@@ -124,5 +159,6 @@
         "**/*.min.*",
         "**/*.map",
         "**/.next/**"
-    ]
+    ],
+    "files.autoSave": "afterDelay"
 }

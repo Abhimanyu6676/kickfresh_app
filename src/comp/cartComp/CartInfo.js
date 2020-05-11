@@ -112,10 +112,11 @@ const AmountSection = (props) => {
           : PcStyles.AmountSection,
       ]}>
       <View style={{width: '100%', borderWidth: 0}}>
+        {/*//Sec5: <<Subtotal>> */}
         <View style={[ComStyles.AmountRow]}>
           <View style={ComStyles.AmountCol1}>
             <Text style={{fontSize: 16, fontWeight: '600', color: '#aaa'}}>
-              Cart Price
+              SubTotal
             </Text>
           </View>
           <View style={ComStyles.AmountCol2}>
@@ -123,42 +124,65 @@ const AmountSection = (props) => {
               {props.Price ? props.Price : 0}
             </Text>
           </View>
+          {/*//Sec5: <<Subtotal>> */}
         </View>
-        <View style={[ComStyles.AmountRow, {display: 'none'}]}>
+        {/*//Sec4: <<Delivery Charges>> */}
+        <View style={[ComStyles.AmountRow]}>
           <View style={ComStyles.AmountCol1}>
-            <Text style={{fontSize: 14, fontWeight: '400', color: '#0a0'}}>
+            <Text style={{fontSize: 12, fontWeight: '600', color: '#aaa'}}>
+              Delivery Charges
+            </Text>
+          </View>
+          <View style={ComStyles.AmountCol2}>
+            <Text style={{fontSize: 12, fontWeight: '600', color: '#aaa'}}>
+              {props.Price ? props.Price : 0}
+            </Text>
+          </View>
+          {/*//Sec4: <<Delivery Charges>> */}
+        </View>
+        {/*//Sec3: <GST<>> */}
+        <View style={[ComStyles.AmountRow, {}]}>
+          <View style={ComStyles.AmountCol1}>
+            <Text style={{fontSize: 12, fontWeight: '400', color: '#FF5733'}}>
+              GST
+            </Text>
+          </View>
+          <View style={ComStyles.AmountCol2}>
+            <Text style={{fontSize: 12, fontWeight: '400', color: '#FF5733'}}>
+              20
+            </Text>
+          </View>
+          {/*//Sec3: <GST<>> */}
+        </View>
+        {/*//Sec2: <<You Save>> */}
+        <View style={ComStyles.AmountRow}>
+          <View style={ComStyles.AmountCol1}>
+            <Text
+              style={{fontSize: 14, fontWeight: '400', color: primaryColor}}>
               You Save
             </Text>
           </View>
           <View style={ComStyles.AmountCol2}>
-            <Text style={{fontSize: 14, fontWeight: '400', color: '#0a0'}}>
-              20
-            </Text>
-          </View>
-        </View>
-        <View style={ComStyles.AmountRow}>
-          <View style={ComStyles.AmountCol1}>
-            <Text style={{fontSize: 14, fontWeight: '400', color: '#a00'}}>
-              Service % Tax Charge
-            </Text>
-          </View>
-          <View style={ComStyles.AmountCol2}>
-            <Text style={{fontSize: 14, fontWeight: '400', color: '#a00'}}>
+            <Text
+              style={{fontSize: 14, fontWeight: '400', color: primaryColor}}>
               {props.Charges ? props.Charges : 0}
             </Text>
           </View>
+          {/*//Sec2: <<You Save>> */}
         </View>
+        {/*//Sec1: <<Total Amount Payable>> */}
         <View style={[ComStyles.AmountRow, {paddingVertical: 10}]}>
           <View style={ComStyles.AmountCol1}>
-            <Text style={{color: '#aaa', fontSize: 18, fontWeight: '600'}}>
-              Payable Amount
+            <Text style={{color: '#aaa', fontSize: 14, fontWeight: '600'}}>
+              Total Amount Payable
             </Text>
           </View>
           <View style={ComStyles.AmountCol2}>
-            <Text style={{color: '#aaa', fontSize: 18, fontWeight: '600'}}>
+            <Text style={{color: '#aaa', fontSize: 14, fontWeight: '600'}}>
               {props.Charges + props.Price}
             </Text>
           </View>
+          {/*//Sec1: <<Total Amount Payable>> */}
         </View>
       </View>
     </View>
@@ -184,7 +208,7 @@ const ComStyles = StyleSheet.create({
     flex: 3,
     borderWidth: 0,
   },
-  AmountCol2: {alignItems: 'flex-end', marginRight: 20},
+  AmountCol2: {marginRight: 20},
   Text: {
     color: '#aaa',
   },
@@ -214,6 +238,7 @@ const PcStyles = StyleSheet.create({
 });
 
 import {connect} from 'react-redux';
+import {primaryColor} from '../../../assets/theme/global_colors';
 
 export default CartInfo = connect((state) => ({
   cart: state.cartReducer.cartList,
