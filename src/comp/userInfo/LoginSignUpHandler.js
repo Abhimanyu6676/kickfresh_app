@@ -36,7 +36,7 @@ export const LoginSignUpHandler = (props) => {
 
   return (
     <View>
-      {SignupScreen && <SignUP switcher={switcher} />}
+      {SignupScreen && <SignUP switcher={switcher} user={props.user} />}
       {!SignupScreen && <SignIN switcher={switcher} />}
     </View>
   );

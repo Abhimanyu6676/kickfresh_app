@@ -49,14 +49,13 @@ export default UserScreen = (props) => {
   });
 
   return (
-    <ScrollView>
+    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       {/* <Text>{User.username ? User.username : 'no user'}</Text> */}
       <View
         style={{
-          display: 'flex',
-          flexDirection: 'column',
           minHeight: window.height - 50,
-          borderWidth: 1,
+          borderWidth: 0,
+          backgroundColor: '#fff',
         }}>
         {ShowHandler && (
           <View
@@ -64,7 +63,11 @@ export default UserScreen = (props) => {
               ComStyles.SignupView,
               window.width < 500 ? MobStyles.SignupView : PcStyles.SignupView,
             ]}>
-            <LoginSignUpHandler navigation={navigation} login={false} />
+            <LoginSignUpHandler
+              navigation={navigation}
+              login={false}
+              user={User}
+            />
           </View>
         )}
 
@@ -100,14 +103,13 @@ const ComStyles = StyleSheet.create({
   UserProfile: {
     backgroundColor: '#fff',
     borderWidth: 0,
-    flexGrow: 1,
   },
   footer: {backgroundColor: primaryColor},
 });
 
 const MobStyles = StyleSheet.create({
   SignupView: {paddingHorizontal: 5},
-  UserProfile: {paddingHorizontal: 5, minHeight: window.height * 0.7},
+  UserProfile: {paddingHorizontal: 5, minHeight: window.height * 0.8},
   footer: {paddingHorizontal: 5},
 });
 
@@ -119,6 +121,24 @@ const TabStyles = StyleSheet.create({
 
 const PcStyles = StyleSheet.create({
   SignupView: {paddingHorizontal: '20%'},
-  UserProfile: {paddingHorizontal: '20%'},
+  UserProfile: {paddingHorizontal: '20%', minHeight: window.height * 0.8},
   footer: {paddingHorizontal: '10%'},
 });
+
+/* import React from 'react';
+import {View, Text} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import UserInfo from './UserInfo';
+import UserOrderHistory from './UserOrderHistory';
+
+const Stack = createStackNavigator();
+
+export default UserProfile = (props) => {
+  const {navigation} = props;
+  return (
+    <Stack.Navigator initialRouteName="UserInfo">
+      <Stack.Screen name="UserInfo" component={UserInfo} />
+      <Stack.Screen name="UserOrderHistory" component={UserOrderHistory} />
+    </Stack.Navigator>
+  );
+}; */

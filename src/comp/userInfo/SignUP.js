@@ -16,6 +16,9 @@ import {LinearGradient} from 'expo-linear-gradient';
 export default SignUP = (props) => {
   const [username, setUsername] = useState('Abhimanyu');
   const [pass, setPass] = useState('12345678');
+  const [rePass, setRePass] = useState('12345678');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,20 +27,68 @@ export default SignUP = (props) => {
   });
 
   const handleSignUP = () => {
-    signUpAPI({username, pass})
-      .then((res) => {
-        console.log('signUpAPI Response>> ' + JSON.stringify(res));
-        if (res.username) {
-          console.log('user>> ' + JSON.stringify(res.username));
-          const u = res;
-          Cookies.set('_user', res.username);
-          Cookies.set('_userObj', res);
-          dispatch(UserAction({User: u}));
-        }
-      })
-      .catch((err) => {
-        console.log('signUpAPI Error' + JSON.stringify(err));
-      });
+    if (validateUsername() && validatePass() && validateEmail()) {
+      console.log('validated');
+      signUpAPI({username, pass, email, phone})
+        .then((res) => {
+          console.log('signUpAPI Response>> ' + JSON.stringify(res));
+          if (res.token) {
+            const u = res.item;
+            console.log('user>> ' + u.username);
+            console.log('userObj>> ' + JSON.stringify(u));
+            console.log('Token>> ' + res.token);
+            Cookies.set('__user', u.username);
+            Cookies.set('__userObj', res.item);
+            Cookies.set('__token', res.token);
+            dispatch(UserAction({User: u}));
+          } else {
+            alert('Unexpected Error');
+          }
+        })
+        .catch((err) => {
+          console.log('signUpAPI Error' + JSON.stringify(err));
+          alert(err.message);
+        });
+    } else {
+      console.log('validation failed');
+    }
+  };
+
+  const validateUsername = () => {
+    if (username.toString().length < 6) {
+      alert('Invalid Username, Please try another Username');
+      return false;
+    }
+    return true;
+  };
+
+  const validatePass = () => {
+    if (pass != rePass) {
+      alert("Password doesn't match, Re-enter Password");
+      return false;
+    } else {
+      if (pass.toString().length < 8) {
+        alert('Password Length must me greater than 8 digit atleast');
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const validateEmail = () => {
+    var x = email.toString();
+    var atposition = x.indexOf('@');
+    var dotposition = x.lastIndexOf('.');
+    if (
+      x.length < 2 ||
+      atposition < 1 ||
+      dotposition < atposition + 2 ||
+      dotposition + 2 >= x.length
+    ) {
+      alert('Please enter a valid e-mail address \n atpostion:');
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -50,7 +101,7 @@ export default SignUP = (props) => {
           marginVertical: 15,
           marginLeft: 10,
         }}>
-        Create Account
+        Create Account = {props.user.username}
       </Text>
       <Form>
         <View style={ComStyles.field}>
@@ -76,8 +127,8 @@ export default SignUP = (props) => {
           </View>
           <View style={{flex: 1, borderWidth: 0}}>
             <Item floatingLabel>
-              <Label>Email/Phone</Label>
-              <Input onChangeText={(text) => setUsername(text)} />
+              <Label>Email</Label>
+              <Input onChangeText={(text) => setEmail(text)} />
             </Item>
           </View>
         </View>
@@ -91,7 +142,7 @@ export default SignUP = (props) => {
           <View style={{flex: 1, borderWidth: 0}}>
             <Item floatingLabel>
               <Label>Password</Label>
-              <Input />
+              <Input onChangeText={(text) => setPass(text)} />
             </Item>
           </View>
         </View>
@@ -105,7 +156,7 @@ export default SignUP = (props) => {
           <View style={{flex: 1, borderWidth: 0}}>
             <Item floatingLabel last>
               <Label>Re-Type Password</Label>
-              <Input onChangeText={(text) => setPass(text)} />
+              <Input onChangeText={(text) => setRePass(text)} />
             </Item>
           </View>
         </View>

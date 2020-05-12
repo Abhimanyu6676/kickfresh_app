@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+axios.defaults.withCredentials = true;
+
 //export const server = "http://162.241.115.55:80";
 export const server = 'http://192.168.1.6:80';
 //export const server = "http://localhost:80";
@@ -13,9 +15,10 @@ export const server = 'http://192.168.1.6:80';
  *        - - pass
  */
 export const signUpAPI = (props) => {
-  let cookie = Cookies.get('_userObj');
+  let cookie = Cookies.get('__userObj');
   if (cookie && cookie != 'undefined') _params = cookie;
-  console.log('_user:param>> ' + JSON.stringify(_params));
+  else _params = {};
+  //console.log('_user:param>> ' + JSON.stringify(_params));
   return new Promise(async (resolve, reject) => {
     await axios
       .post(
@@ -23,23 +26,26 @@ export const signUpAPI = (props) => {
         {
           username: props.username,
           password: props.pass,
-          _user: _params,
+          email: props.email,
+          phone: props.phone,
+          __userObj: _params,
         },
         {
-          timeout: 10000,
+          timeout: 5000,
+          withCredentials: true,
         },
       )
       .then((response) => {
-        console.log('Create User Response>> ' + JSON.stringify(response));
-        if (response.data.data.updateUser) {
-          /* signIN({username: props.username, pass: props.pass})
-          .then((res) => {
-            resolve(res);
-          })
-          .catch((err) => {
-            reject(err);
-          }); */
-          resolve(response.data.data.updateUser);
+        console.log('Signup User Response>> ' + JSON.stringify(response));
+        if (response.data) {
+          signInAPI({username: props.username, pass: props.pass})
+            .then((res) => {
+              resolve(res);
+            })
+            .catch((err) => {
+              reject(err);
+            });
+          //resolve(response.data);
         } else reject('Unknown Error');
       })
       .catch((error) => {
@@ -49,7 +55,7 @@ export const signUpAPI = (props) => {
   });
 };
 
-export const signIN = (props) => {
+export const signInAPI = (props) => {
   return new Promise(async (resolve, reject) => {
     await axios
       .post(
@@ -66,19 +72,42 @@ export const signIN = (props) => {
         },
         {
           timeout: 10000,
+          withCredentials: true,
         },
       )
       .then((response) => {
-        console.log(
-          'SignIN response>> ' +
-            JSON.stringify(response.data.data.authenticate),
-        );
+        console.log('SignIN response>> ' + JSON.stringify(response));
         if (response.data.data.authenticate.token)
           resolve(response.data.data.authenticate);
-        else reject('User Authentication Failed');
+        else if (response.data.errors) {
+          reject(response.data.errors[0].message);
+        } else reject('User Authentication Failed');
       })
       .catch((error) => {
-        console.log('SignIN Error>>' + JSON.stringify(error));
+        if (error.response)
+          console.log(
+            'SignIN Error>>' +
+              JSON.stringify(error.response.data.errors[0].message),
+          );
+        else console.log('SignIN Error>>>' + JSON.stringify(error));
+        reject(error);
+      });
+  });
+};
+
+export const getUserAPI = (props) => {
+  let cookie = Cookies.get('__userObj');
+  if (cookie && cookie != 'undefined') _params = {__userObj: cookie};
+  else _params = {};
+  return new Promise(async (resolve, reject) => {
+    await axios
+      .get(server + '/user', {timeout: 2500, params: _params})
+      .then((response) => {
+        console.log('getUserAPI response>> ' + JSON.stringify(response));
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log('getUserAPI Error>>' + JSON.stringify(error));
         reject(error);
       });
   });
@@ -93,7 +122,10 @@ const SIGNIN_MUTATION = `
       token
       item {
         username
-        isAdmin
+        FName
+        LName
+        email
+        Address
       }
     }
   }

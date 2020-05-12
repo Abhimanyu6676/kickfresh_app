@@ -5,70 +5,60 @@ import useAxios from 'axios-hooks';
 import {useDispatch} from 'react-redux';
 import {UserAction} from '../redux/actions/UserAction';
 import {cartListAction} from '../redux/actions/CartListAction';
-import {server} from './REST';
+import {server, getUserAPI} from './REST';
 
 export default Background = (props) => {
-  const [count, setCount] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [cartUpdated, setCartUpdated] = useState(false);
+  const [userUpdated, setUserUpdated] = useState(false);
   const dispatch = useDispatch();
-  let cookie = Cookies.get('__userObj');
-  if (cookie && cookie != 'undefined') _params = {__userObj: cookie};
-  else _params = {};
-  const [{data, loading, error}, executeGet] = useAxios(
-    {
-      url: server + '/user',
-      withCredentials: true,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      params: _params,
-      timeout: 2500,
-    },
-    {manual: true},
-  );
 
   //art@world5fund.com
 
   useEffect(() => {
-    console.log('>>>>>cookie test>>>>>>');
-    console.log(Cookies.get('__user') ? Cookies.get('__user') : '--');
-    console.log(Cookies.get('__userObj') ? Cookies.get('__userObj') : '--');
+    console.log(
+      'BACKGROUND SERVICE STARTED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+    );
+    let userObj = Cookies.get('__userObj');
+    if (userObj && userObj != 'undefined' && !userUpdated) {
+      console.log('>>>>>user cookie found>>>>>>');
+      console.log(Cookies.get('__user') ? Cookies.get('__user') : '--');
+      console.log(Cookies.get('__userObj') ? Cookies.get('__userObj') : '--');
+      setUserUpdated(true);
+      dispatch(UserAction({User: JSON.parse(userObj)}));
+    }
+
     let cart = Cookies.get('cart');
-    if (cart) {
+    if (cart && cart != 'undefined' && !cartUpdated) {
       var obj = JSON.parse(cart);
       console.log('cart>> ' + JSON.stringify(obj));
+      setCartUpdated(true);
       dispatch(cartListAction({cartList: obj}));
     }
-    if (data && data.username) {
-      console.log(
-        'user>> ' +
-          JSON.stringify(data.username) +
-          ' >> ' +
-          JSON.stringify(data),
-      );
-      const u = {
-        username: data.username,
-        Phone: null,
-        Address: [],
-        Email: null,
-        Token: JSON.stringify(data),
-      };
-      Cookies.set('__user', data.username);
-      Cookies.set('__userObj', data);
-      dispatch(UserAction({User: u}));
-    } else if (data && data == 'No User Found') {
-      Cookies.remove('__user');
-      setCount(count + 1);
+    //if (!userUpdated) {
+    if (false) {
+      getUserAPI()
+        .then((response) => {
+          //validate response
+          //-->upon no user found -- Cookies.remove('__user'); Cookies.remove('__userObj');
+          console.log('getUserAPI response >>>');
+          console.log(response.data);
+          const u = response.data;
+          Cookies.set('__user', u.username);
+          Cookies.set('__userObj', u);
+          console.log('Setting state');
+          dispatch(UserAction({User: u}));
+          setUserUpdated(true);
+        })
+        .catch((err) => {
+          //Cookies.remove('__user'); Cookies.remove('__userObj');
+          console.log('getUserAPI error >>');
+          console.log(err);
+        });
+    } else {
     }
-    const service = setInterval(() => {
-      if (!data) {
-        executeGet();
-      } else {
-      }
-    }, 3000);
-    return () => {
-      clearInterval(service);
-    };
+
+    return () => {};
   });
 
   return <View></View>;

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Form, Item, Input, Label} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUpAPI} from '../../services/REST';
+import {signInAPI} from '../../services/REST';
 import {UserAction} from '../../redux/actions/UserAction';
 import Cookies from 'js-cookie';
 import {
@@ -14,7 +14,7 @@ import {
 import {LinearGradient} from 'expo-linear-gradient';
 
 export default SignIN = (props) => {
-  const [username, setUsername] = useState('Abhimanyu');
+  const [username, setUsername] = useState('Abhimanyu12');
   const [pass, setPass] = useState('12345678');
   const dispatch = useDispatch();
 
@@ -24,19 +24,25 @@ export default SignIN = (props) => {
   });
 
   const handleSignIN = () => {
-    signUpAPI({username, pass})
+    signInAPI({username, pass})
       .then((res) => {
-        console.log('signUpAPI Response>> ' + JSON.stringify(res));
-        if (res.username) {
-          console.log('user>> ' + JSON.stringify(res.username));
-          const u = res;
-          Cookies.set('_user', res.username);
-          Cookies.set('_userData', res);
+        console.log('signInAPI Response>> ' + JSON.stringify(res));
+        if (res.item.username) {
+          const u = res.item;
+          console.log('user>> ' + u.username);
+          console.log('userObj>> ' + JSON.stringify(u));
+          console.log('Token>> ' + res.token);
+          Cookies.set('__user', u.username);
+          Cookies.set('__userObj', res.item);
+          Cookies.set('__token', res.token);
           dispatch(UserAction({User: u}));
         }
       })
       .catch((err) => {
         console.log('signUpAPI Error' + JSON.stringify(err));
+        alert(
+          'Authentication Failed! Username or Password Incorrect, Please try again',
+        );
       });
   };
 
@@ -62,7 +68,7 @@ export default SignIN = (props) => {
           </View>
           <View style={{flex: 1, borderWidth: 0}}>
             <Item floatingLabel>
-              <Label>Email/Phone</Label>
+              <Label>Username</Label>
               <Input onChangeText={(text) => setUsername(text)} />
             </Item>
           </View>
@@ -107,7 +113,7 @@ export default SignIN = (props) => {
             }}
             onPress={handleSignIN}>
             <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18}}>
-              SignUP
+              Login
             </Text>
             <FontAwesome5
               name="arrow-right"
