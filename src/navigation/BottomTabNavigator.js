@@ -118,8 +118,7 @@ const bottomTabNavigator = (props) => {
               ? MobStyles.headerRowOne
               : PcStyles.headerRowOne,
           ]}>
-          {/*//Sec: 'location' */}
-
+          {/*//Sec1: 'location' */}
           {getHeaderTitle(route) != 'Cart' && (
             <TouchableOpacity
               onPress={() => {
@@ -163,7 +162,7 @@ const bottomTabNavigator = (props) => {
             </TouchableOpacity>
           )}
 
-          {/*//Sec: 'User' */}
+          {/*//Sec2: 'User' */}
           <TouchableOpacity
             onPress={() => {
               console.log('USERSCREEN');
@@ -179,7 +178,7 @@ const bottomTabNavigator = (props) => {
               style={{fontSize: 25, color: '#fff'}}
             />
           </TouchableOpacity>
-          {/*//Sec: 'Cart' */}
+          {/*//Sec3: 'Cart' */}
           <TouchableOpacity
             transparent
             onPress={() => {
@@ -197,7 +196,12 @@ const bottomTabNavigator = (props) => {
                 navigation.navigate('Cart');
               } else {
                 if (locationRef != null && !showCartasDialog)
-                  locationRef.current.scrollTo({x: 0, y: 0, animated: true});
+                  if (true) {
+                    //console.log('Current screen = ');
+                    //console.log(route.state.routes[route.state.index]);
+                    navigation.navigate('StoreHome');
+                  }
+                locationRef.current.scrollTo({x: 0, y: 0, animated: true});
               }
             }}>
             <View
