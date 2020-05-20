@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {cartListAction} from '../../redux/actions/CartListAction';
 import {AddToCart, RemoveFromCart} from '../../services/CartUpdate';
 import ImageLoad from 'react-native-image-placeholder';
-import {server} from '../../services/REST';
+import {server2} from '../../services/REST';
 import {Row} from '../../../assets/components/Layouts';
 import {
   primaryColor,
@@ -56,7 +56,7 @@ const ListItem = (props) => {
     <Row
       _style={[
         ComStyles.Item,
-        props.dimensions.window.width < 500 ? MobStyles.Item : PcStyles.Item,
+        props.width < 500 ? MobStyles.Item : PcStyles.Item,
       ]}>
       <View
         style={{
@@ -73,7 +73,7 @@ const ListItem = (props) => {
           placeholderSource={require('../../../assets/loading_logo.png')}
           source={{
             uri:
-              server +
+              server2 +
               '/ProductImages/' +
               props.item.Category +
               '/' +
@@ -96,9 +96,25 @@ const ListItem = (props) => {
           {props.item.ProductName}
         </Text>
         <Text style={{color: '#aaa'}}>500gms</Text>
-        <Text style={{color: primaryColor, fontWeight: 'bold', marginTop: 5}}>
-          Rs 32
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{color: primaryColor, fontWeight: 'bold', marginTop: 5}}>
+            Rs {props.item.Price ? props.item.Price : '--'}
+          </Text>
+          {props.item.MRP > props.item.Price && (
+            <Text
+              style={{
+                color: primaryColor,
+                textDecorationLine: 'line-through',
+                fontSize: 10,
+                fontWeight: '600',
+                color: '#aaa',
+                alignSelf: 'flex-end',
+                marginLeft: 10,
+              }}>
+              Rs {props.item.MRP}
+            </Text>
+          )}
+        </View>
       </View>
 
       <View style={{borderWidth: 0, alignSelf: 'flex-end'}}>

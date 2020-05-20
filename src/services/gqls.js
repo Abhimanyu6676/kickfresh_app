@@ -19,6 +19,7 @@ export const gql_trendingProducts = gql`
       Category
       SubCategory
       Price
+      MRP
       Breakqty
       isTrending
       Unit
@@ -33,6 +34,7 @@ export const gql_SubCategoryProducts = gql`
       Category
       SubCategory
       Price
+      MRP
       Breakqty
       isTrending
       Unit
@@ -46,6 +48,7 @@ export const gql_SearchProducts = gql`
       ProductName
       Category
       SubCategory
+      MRP
       Price
       Breakqty
       isTrending
@@ -62,9 +65,139 @@ export const gql_signIN = gql`
     ) {
       token
       item {
+        id
         username
+        FName
+        LName
+        Address
         isAdmin
       }
+    }
+  }
+`;
+
+export const gql_getAllAddress = gql`
+  query($id: ID!) {
+    User(where: {id: $id}) {
+      username
+      defaultAddress
+      Address {
+        id
+        addLine1
+        addLine2
+        addRef
+        city
+        state
+        Pincode
+        isDefault
+      }
+    }
+  }
+`;
+
+export const gql_updateAddress = gql`
+  mutation updateAddress(
+    $id: ID!
+    $addLine1: String!
+    $addLine2: String!
+    $addRef: String!
+    $city: String!
+    $state: String!
+    $isDefault: Boolean!
+  ) {
+    updateAddress(
+      id: $id
+      data: {
+        addLine1: $addLine1
+        addLine2: $addLine2
+        addRef: $addRef
+        city: $city
+        state: $state
+        isDefault: $isDefault
+      }
+    ) {
+      id
+      addLine1
+      addLine2
+      addRef
+      city
+      state
+      Pincode
+      isDefault
+    }
+  }
+`;
+
+export const gql_deleteAddress = gql`
+  mutation deleteAddress($id: ID!) {
+    deleteAddress(id: $id) {
+      id
+      addLine1
+      addLine2
+      addRef
+      city
+      state
+      User {
+        id
+        username
+      }
+    }
+  }
+`;
+
+export const gql_updateDefaultAddress = gql`
+  mutation updateAddress($id: ID!, $defaultAddress: String!) {
+    updateUser(id: $id, data: {defaultAddress: $defaultAddress}) {
+      id
+      defaultAddress
+      username
+    }
+  }
+`;
+
+export const gql_getUser = gql`
+  query($id: ID!) {
+    User(where: {id: $id}) {
+      id
+      username
+      FName
+      LName
+      email
+      defaultAddress
+    }
+  }
+`;
+
+export const gql_addAddress = gql`
+  mutation createAddress(
+    $id: ID!
+    $addLine1: String!
+    $addLine2: String!
+    $addRef: String!
+    $city: String!
+    $state: String!
+    $isDefault: Boolean!
+  ) {
+    createAddress(
+      data: {
+        addLine1: $addLine1
+        addLine2: $addLine2
+        addRef: $addRef
+        city: $city
+        state: $state
+        isDefault: $isDefault
+        User: {connect: {id: $id}}
+      }
+    ) {
+      id
+    }
+  }
+`;
+
+export const gql_createSubscriber = gql`
+  mutation createSubscribersList($email: String!) {
+    createSubscribersList(data: {email: $email}) {
+      email
     }
   }
 `;

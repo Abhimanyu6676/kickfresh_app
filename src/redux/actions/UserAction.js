@@ -6,3 +6,10 @@ export const UserAction = (User) => {
     User: User,
   };
 };
+
+export const UserAddressAction = (UserAddress) => {
+  return {
+    type: reduxConstants.USER_ADDRESS,
+    UserAddress: UserAddress,
+  };
+};

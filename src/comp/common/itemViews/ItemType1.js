@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {cartListAction} from '../../../redux/actions/CartListAction';
 import {AddToCart, RemoveFromCart} from '../../../services/CartUpdate';
 import ImageLoad from 'react-native-image-placeholder';
-import {server} from '../../../services/REST';
+import {server, server2} from '../../../services/REST';
 import {
   primaryColor,
   secondaryColor,
@@ -70,22 +70,27 @@ export default ItemType1 = (props) => {
           padding: 10,
         }}>
         {/*//Sec: <<Product Offer>> */}
-        <View
-          style={{
-            position: 'absolute',
-            top: 10,
-            left: 10,
-            alignSelf: 'flex-start',
-            backgroundColor: secondaryColor,
-            borderRadius: 10,
-            paddingHorizontal: 8,
-            paddingVertical: 2,
-            zIndex: 2,
-          }}>
-          <Text style={{fontSize: 10, fontWeight: 'bold', color: primaryColor}}>
-            15% off
-          </Text>
-        </View>
+        {props.item.MRP > props.item.Price && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 10,
+              left: 10,
+              alignSelf: 'flex-start',
+              backgroundColor: secondaryColor,
+              borderRadius: 10,
+              paddingHorizontal: 8,
+              paddingVertical: 2,
+              zIndex: 2,
+            }}>
+            <Text
+              style={{fontSize: 10, fontWeight: 'bold', color: primaryColor}}>
+              {Math.round(
+                ((props.item.MRP - props.item.Price) / props.item.MRP) * 100,
+              ) + '% off'}
+            </Text>
+          </View>
+        )}
         {/*//Sec: <<Product Image>> */}
         <View
           style={[
@@ -102,7 +107,7 @@ export default ItemType1 = (props) => {
             style={{width: 100, height: 100}}
             source={{
               uri:
-                server +
+                server2 +
                 '/ProductImages/' +
                 props.item.Category +
                 '/' +
@@ -140,7 +145,7 @@ export default ItemType1 = (props) => {
               fontWeight: '700',
               color: '#777',
             }}>
-            Rs-{props.item.Price ? props.item.Price : 20}
+            Rs {props.item.Price ? props.item.Price : '--'}
           </Text>
           <Text
             style={{
@@ -150,7 +155,7 @@ export default ItemType1 = (props) => {
               color: '#aaa',
               alignSelf: 'flex-end',
             }}>
-            {props.item.Price ? parseInt(props.item.Price) + 5 : 25}
+            {props.item.MRP > props.item.Price ? props.item.MRP : ''}
           </Text>
         </Row>
         {/*//Sec: <<Product Quantity>> */}
@@ -219,7 +224,7 @@ const PcStyles = StyleSheet.create({
   /* <ImageLoad
             source={{
               uri:
-                server +
+                server2 +
                 '/ProductImages/' +
                 props.item.Category +
                 '/' +

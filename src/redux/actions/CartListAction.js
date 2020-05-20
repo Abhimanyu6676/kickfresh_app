@@ -6,3 +6,4 @@ export const cartListAction = (cartList) => {
     cartList: cartList,
   };
 };
+

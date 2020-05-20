@@ -1,21 +1,47 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import CartItems from './CartItem';
 import {connect} from 'react-redux';
+import {FontAwesome5} from '@expo/vector-icons';
 
 const Cartlist = (props) => {
   return (
     <View
       style={[
         ComStyles.CartListContainer,
-        props.dimensions.window.width < 500
+        props.width <= 500
           ? MobStyles.CartListContainer
           : PcStyles.CartListContainer,
       ]}>
       <Text style={{color: '#aaa', fontSize: 15, alignSelf: 'center'}}>
         You have {props.cart.length ? props.cart.length : 0} Items in your cart
       </Text>
-      <CartItems dimensions={props.dimensions} />
+      {props.cart.length == 0 && (
+        <View
+          style={{
+            borderWidth: 0,
+            position: 'absolute',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            width: '100%',
+          }}>
+          <FontAwesome5
+            name="shopping-cart"
+            style={{color: '#d3d3d3', fontSize: 70}}
+          />
+          <Text
+            style={{
+              color: '#d3d3d3',
+              fontSize: 20,
+              marginTop: 10,
+              fontWeight: 'bold',
+            }}>
+            CART EMPTY
+          </Text>
+        </View>
+      )}
+      <CartItems width={props.width} />
     </View>
   );
 };
@@ -29,12 +55,13 @@ const ComStyles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     minHeight: 300,
+    paddingBottom: 20,
   },
 });
 
 const MobStyles = StyleSheet.create({
   CartListContainer: {
-    width: '90%',
+    width: '100%',
   },
 });
 
@@ -44,7 +71,7 @@ const TabStyles = StyleSheet.create({
 
 const PcStyles = StyleSheet.create({
   CartListContainer: {
-    width: '80%',
+    width: '100%',
   },
 });
 

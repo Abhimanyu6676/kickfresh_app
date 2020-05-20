@@ -48,10 +48,8 @@ export default TrendingRow = (props) => {
           color: '#aaa',
           fontWeight: 'bold',
           fontSize: 20,
-          marginTop: 10,
-          marginLeft: 5,
         }}>
-        Trending-Products
+        Trending Products
       </Text>
 
       <View>
@@ -72,6 +70,7 @@ export default TrendingRow = (props) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    borderWidth: 0,
   },
   head: {
     justifyContent: 'center',

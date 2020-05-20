@@ -1,11 +1,11 @@
 import {createStore, combineReducers} from 'redux';
 import {cartReducer} from './reducers/CartListReducer';
 import {userReducer} from './reducers/UserReducer';
-import {locationReducer} from './reducers/LocationReducer';
+import {globalReducer} from './reducers/GlobalReducer';
 
 const allReducers = combineReducers({
   cartReducer,
   userReducer,
-  locationReducer,
+  globalReducer,
 });
 export const store = createStore(allReducers);

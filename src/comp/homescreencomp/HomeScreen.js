@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, Dimensions, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  ScrollView,
+  Platform,
+} from 'react-native';
 import TrendingRow from './TrendingRow';
 import {connect, useSelector} from 'react-redux';
 //import { useFocusEffect } from "@react-navigation/core";
@@ -7,16 +14,24 @@ import BannerRow from './BannerRow';
 import CategoryList from './category/CategoryList';
 import SearchBar from '../common/SearchBar';
 import {Footer} from './Footer';
-import {primaryColor} from '../../../assets/theme/global_colors';
+import {
+  primaryColor,
+  secondaryColor,
+} from '../../../assets/theme/global_colors';
 import LocationDialog from '../common/LocationDialog';
+import CartScreen from '../../screens/CartScreen';
+import {getForCartDialog} from '../../services/HelperFunctions';
 
 const window = Dimensions.get('window');
 const screen = Dimensions.get('screen');
 
-const Homescreen = (props) => {
+export default HomeScreen = (props) => {
   const [dimensions, setDimensions] = useState({window, screen});
   const showLocationDialog = useSelector(
-    (state) => state.locationReducer.showLocationDialog,
+    (state) => state.globalReducer.showLocationDialog,
+  );
+  const showCartasDialog = useSelector(
+    (state) => state.globalReducer.showCartasDialog,
   );
 
   props.navigation.setOptions({headerShown: false});
@@ -32,8 +47,21 @@ const Homescreen = (props) => {
     };
   });
   return (
-    <ScrollView style={{backgroundColor: '#fff', top: -2}}>
+    <ScrollView style={{backgroundColor: '#fff'}} ref={props.route.params.ref}>
       {showLocationDialog && <LocationDialog />}
+      {Platform.OS == 'web' &&
+        dimensions.window.width > 800 &&
+        showCartasDialog && (
+          <View
+            style={{
+              position: 'absolute',
+              right: 0,
+              zIndex: 50,
+              width: 500,
+            }}>
+            <CartScreen />
+          </View>
+        )}
       <View
         style={[
           ComStyles.SearchBar,
@@ -52,7 +80,13 @@ const Homescreen = (props) => {
             : PcStyles.container,
           ComStyles.container,
         ]}>
-        <BannerRow navigation={props.navigation} dimensions={dimensions} />
+        <View
+          style={[
+            ComStyles.Banner,
+            dimensions.window.width < 500 ? MobStyles.Banner : PcStyles.Banner,
+          ]}>
+          <BannerRow navigation={props.navigation} dimensions={dimensions} />
+        </View>
         <View
           style={[
             ComStyles.TrendingRow,
@@ -83,7 +117,7 @@ const Homescreen = (props) => {
   );
 };
 
-Homescreen.navigationOptions = {
+HomeScreen.navigationOptions = {
   header: null,
 };
 
@@ -91,7 +125,8 @@ const ComStyles = StyleSheet.create({
   container: {
     borderWidth: 0,
   },
-  TrendingRow: {borderWidth: 0},
+  Banner: {},
+  TrendingRow: {borderWidth: 0, marginTop: 20},
   CategoryList: {},
   SearchBar: {backgroundColor: primaryColor},
   Footer: {backgroundColor: primaryColor, marginTop: 20},
@@ -99,8 +134,9 @@ const ComStyles = StyleSheet.create({
 
 const MobStyles = StyleSheet.create({
   container: {},
-  TrendingRow: {padding: 15},
-  CategoryList: {marginHorizontal: 8},
+  Banner: {},
+  TrendingRow: {marginHorizontal: '2%'},
+  CategoryList: {marginHorizontal: '2%'},
   SearchBar: {
     width: '100%',
   },
@@ -109,6 +145,7 @@ const MobStyles = StyleSheet.create({
 
 const TabStyles = StyleSheet.create({
   container: {},
+  Banner: {},
   TrendingRow: {},
   CategoryList: {},
   SearchBar: {
@@ -120,8 +157,9 @@ const TabStyles = StyleSheet.create({
 
 const PcStyles = StyleSheet.create({
   container: {},
-  TrendingRow: {marginHorizontal: 50},
-  CategoryList: {marginHorizontal: 50},
+  Banner: {marginHorizontal: '10%', borderWidth: 0},
+  TrendingRow: {marginHorizontal: '10%'},
+  CategoryList: {marginHorizontal: '10%'},
   SearchBar: {
     paddingHorizontal: 200,
     maxHeight: 70,
@@ -129,7 +167,3 @@ const PcStyles = StyleSheet.create({
   },
   Footer: {width: '100%', paddingHorizontal: 50},
 });
-
-export default HomeScreen = connect((state) => ({
-  istate: state.cartReducer.cartList,
-}))(Homescreen);

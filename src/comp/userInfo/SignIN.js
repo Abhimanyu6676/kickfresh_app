@@ -12,30 +12,30 @@ import {
   FontAwesome5,
 } from '@expo/vector-icons';
 import {LinearGradient} from 'expo-linear-gradient';
+import {saveToStorage, fetchFromStorage} from '../../services/Storage';
 
 export default SignIN = (props) => {
-  const [username, setUsername] = useState('Abhimanyu12');
+  const [username, setUsername] = useState('Abhi11');
   const [pass, setPass] = useState('12345678');
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log('SIGNIN');
-    return () => {};
-  });
+  let {window, navigation} = props;
 
   const handleSignIN = () => {
     signInAPI({username, pass})
       .then((res) => {
         console.log('signInAPI Response>> ' + JSON.stringify(res));
-        if (res.item.username) {
+        if (res.item.username && res.token) {
           const u = res.item;
           console.log('user>> ' + u.username);
           console.log('userObj>> ' + JSON.stringify(u));
           console.log('Token>> ' + res.token);
-          Cookies.set('__user', u.username);
-          Cookies.set('__userObj', res.item);
-          Cookies.set('__token', res.token);
-          dispatch(UserAction({User: u}));
+          saveToStorage({key: '__user', value: u.username});
+          saveToStorage({key: '__userObj', value: JSON.stringify(res.item)});
+          saveToStorage({key: '__token', value: res.token});
+          dispatch(UserAction(u));
+          navigation.replace('UserProfile');
+        } else {
+          alert('Unexpected Error, Please Try again');
         }
       })
       .catch((err) => {
@@ -59,7 +59,11 @@ export default SignIN = (props) => {
         Login To Your Account
       </Text>
       <Form>
-        <View style={ComStyles.field}>
+        <View
+          style={[
+            ComStyles.field,
+            window.width < 500 ? MobStyles.field : PcStyles.field,
+          ]}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <MaterialIcons
               name="email"
@@ -74,7 +78,11 @@ export default SignIN = (props) => {
           </View>
         </View>
 
-        <View style={ComStyles.field}>
+        <View
+          style={[
+            ComStyles.field,
+            window.width < 500 ? MobStyles.field : PcStyles.field,
+          ]}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <MaterialCommunityIcons
               name="textbox-password"
@@ -186,5 +194,5 @@ const TabStyles = StyleSheet.create({
 
 const PcStyles = StyleSheet.create({
   container: {},
-  field: {},
+  field: {marginVertical: 20},
 });

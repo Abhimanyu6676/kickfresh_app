@@ -1,28 +1,40 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import {fetchFromStorage} from '../services/Storage';
+
+//export const server = 'http://162.241.115.55:80';
+export const server = 'https://freshkick.in/backend';
+export const server2 = 'https://freshkick.in/Images';
+//export const server = 'http://192.168.1.6:3000';
+//export const server = "http://localhost:80";
 
 axios.defaults.withCredentials = true;
-
-//export const server = "http://162.241.115.55:80";
-export const server = 'http://192.168.1.6:80';
-//export const server = "http://localhost:80";
+axios.defaults.baseURL = server;
 
 /**
  *
- * @param {props- username, pass}
+ * @param {props- username, pass}s
  *      - props
  *        - - username
  *        - - pass
  */
-export const signUpAPI = (props) => {
-  let cookie = Cookies.get('__userObj');
+export const signUpAPI = async (props) => {
+  let cookie = 'undefined';
+  await fetchFromStorage({key: '__userObj'})
+    .then((val) => {
+      cookie = val;
+    })
+    .catch((err) => {
+      console.log('fetch error>>');
+      console.log(err);
+    });
   if (cookie && cookie != 'undefined') _params = cookie;
   else _params = {};
   //console.log('_user:param>> ' + JSON.stringify(_params));
   return new Promise(async (resolve, reject) => {
     await axios
       .post(
-        server + '/user/signup',
+        '/user/signup',
         {
           username: props.username,
           password: props.pass,
@@ -36,7 +48,7 @@ export const signUpAPI = (props) => {
         },
       )
       .then((response) => {
-        console.log('Signup User Response>> ' + JSON.stringify(response));
+        console.log('Signup User Response>> ' + JSON.stringify(response.data));
         if (response.data) {
           signInAPI({username: props.username, pass: props.pass})
             .then((res) => {
@@ -59,7 +71,7 @@ export const signInAPI = (props) => {
   return new Promise(async (resolve, reject) => {
     await axios
       .post(
-        server + '/admin/api',
+        '/admin/api',
         {
           query: SIGNIN_MUTATION,
           variables: {
@@ -76,7 +88,7 @@ export const signInAPI = (props) => {
         },
       )
       .then((response) => {
-        console.log('SignIN response>> ' + JSON.stringify(response));
+        console.log('SignIN response>> ' + JSON.stringify(response.data));
         if (response.data.data.authenticate.token)
           resolve(response.data.data.authenticate);
         else if (response.data.errors) {
@@ -95,19 +107,44 @@ export const signInAPI = (props) => {
   });
 };
 
-export const getUserAPI = (props) => {
-  let cookie = Cookies.get('__userObj');
+export const getUserAPI = async (props) => {
+  let cookie = 'undefined';
+  await fetchFromStorage({key: '__userObj'})
+    .then((val) => {
+      cookie = val;
+    })
+    .catch((err) => {});
   if (cookie && cookie != 'undefined') _params = {__userObj: cookie};
   else _params = {};
   return new Promise(async (resolve, reject) => {
     await axios
-      .get(server + '/user', {timeout: 2500, params: _params})
+      .get('/user', {timeout: 2500, params: _params})
       .then((response) => {
-        console.log('getUserAPI response>> ' + JSON.stringify(response));
-        resolve(response);
+        console.log(
+          'axios getUserAPI response>> ' + JSON.stringify(response.data),
+        );
+        if (
+          response.data != null &&
+          response.data != 'undefined' &&
+          response.data.username
+        )
+          resolve(response.data);
+        else reject('NO DATA RETURNED');
       })
       .catch((error) => {
-        console.log('getUserAPI Error>>' + JSON.stringify(error));
+        console.log('getUserAPI Error>>>--' + JSON.stringify(error.message));
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        }
         reject(error);
       });
   });
@@ -121,11 +158,11 @@ const SIGNIN_MUTATION = `
     ) {
       token
       item {
+        id
         username
         FName
         LName
         email
-        Address
       }
     }
   }

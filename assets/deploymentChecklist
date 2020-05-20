@@ -1,0 +1,11 @@
+1. Build Expo
+2. Paste Banner Images and Product Images to web_build folder
+3. Paste Metadata to inside web-buld/index.html
+4. Build Keystone production
+5. sync with server
+-------DONE---------
+
+
+Keypoints to consider before Building Expo for Production
+* Make sure server is set to VPS address  (services/REST.js)
+* Check Navigation and Routing

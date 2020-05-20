@@ -12,10 +12,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   cityAction,
   showLocationDialogAction,
-} from '../../redux/actions/LocationAction';
+} from '../../redux/actions/GlobalAction';
 import {Dialog} from 'react-native-simple-dialogs';
 import {Row} from '../../../assets/components/Layouts';
 import GridView from 'react-native-super-grid';
+import {server2} from '../../services/REST';
+import {EvilIcons} from '@expo/vector-icons';
 
 const window = Dimensions.get('window');
 const cities = [
@@ -23,22 +25,22 @@ const cities = [
     City: 'Noida',
   },
   {
-    City: 'Bengaluru',
+    City: 'Gurgaon',
+  },
+  {
+    City: 'Delhi',
+  },
+  {
+    City: 'Chennai',
   },
   {
     City: 'Mumbai',
-  },
-  {
-    City: 'Hyderabad',
-  },
-  {
-    City: 'Kolkata',
   },
 ];
 
 export default LocationDialog = (props) => {
   const showLocationDialog = useSelector(
-    (state) => state.locationReducer.showLocationDialog,
+    (state) => state.globalReducer.showLocationDialog,
   );
   const dispatch = useDispatch();
 
@@ -49,7 +51,7 @@ export default LocationDialog = (props) => {
     return (
       <Dialog
         visible={showLocationDialog}
-        title="Select Location"
+        title=""
         dialogStyle={[
           ComStyles.Dialog,
           window.width < 500 ? MobStyles.Dialog : PcStyles.Dialog,
@@ -85,11 +87,29 @@ const _Dialog = (props) => {
         ComStyles._Dialog,
         window.width < 500 ? MobStyles._Dialog : PcStyles._Dialog,
       ]}>
-      <Row>
-        <Text style={{color: '#aaa', fontSize: 18, fontWeight: 'bold'}}>
+      <View style={{borderWidth: 0, width: '100%', flexDirection: 'row'}}>
+        <Text
+          style={{color: '#aaa', fontSize: 18, fontWeight: 'bold', flex: 1}}>
           We currently deliver in
         </Text>
-      </Row>
+        <TouchableOpacity
+          onPress={() => {
+            props.dispatch(
+              showLocationDialogAction({
+                showLocationDialog: false,
+              }),
+            );
+          }}>
+          <EvilIcons
+            name="close"
+            style={{
+              color: '#aaa',
+              fontWeight: 'bold',
+              fontSize: 40,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
       <Row>
         <View style={{borderWidth: 0, width: '100%', alignItems: 'center'}}>
           <GridView
@@ -101,6 +121,11 @@ const _Dialog = (props) => {
                 onPress={() => {
                   console.log(item.item.City);
                   props.dispatch(cityAction({currentLocation: item.item.City}));
+                  props.dispatch(
+                    showLocationDialogAction({
+                      showLocationDialog: false,
+                    }),
+                  );
                 }}>
                 <View
                   style={{
@@ -110,7 +135,9 @@ const _Dialog = (props) => {
                   }}>
                   <Image
                     style={{width: 100, height: 100, alignSelf: 'center'}}
-                    source={require('../../../assets/city.jpg')}
+                    source={{
+                      uri: server2 + '/CityImages/' + item.item.City + '.png',
+                    }}
                   />
                   <Text
                     style={{

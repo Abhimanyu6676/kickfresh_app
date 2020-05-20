@@ -11,6 +11,10 @@ import {SplashScreen} from 'expo';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
 import useLinking from './src/navigation/useLinking';
+import {View, Text, Image} from 'react-native';
+
+console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+console.disableYellowBox = true;
 
 const App = (props) => {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -46,7 +50,24 @@ const App = (props) => {
   }, []);
   //console.disableYellowBox = true;
   if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return null;
+    return (
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image
+          style={{
+            width: 500,
+            height: 500,
+            alignSelf: 'center',
+          }}
+          source={require('./assets/loading.gif')}
+        />
+      </View>
+    );
   } else {
     return <Application />;
   }

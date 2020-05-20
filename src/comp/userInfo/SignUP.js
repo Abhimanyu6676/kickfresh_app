@@ -14,6 +14,7 @@ import {
 import {LinearGradient} from 'expo-linear-gradient';
 
 export default SignUP = (props) => {
+  const {window, navigation} = props;
   const [username, setUsername] = useState('Abhimanyu');
   const [pass, setPass] = useState('12345678');
   const [rePass, setRePass] = useState('12345678');
@@ -21,14 +22,8 @@ export default SignUP = (props) => {
   const [phone, setPhone] = useState(0);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('SIGNUP');
-    return () => {};
-  });
-
   const handleSignUP = () => {
     if (validateUsername() && validatePass() && validateEmail()) {
-      console.log('validated');
       signUpAPI({username, pass, email, phone})
         .then((res) => {
           console.log('signUpAPI Response>> ' + JSON.stringify(res));
@@ -37,12 +32,13 @@ export default SignUP = (props) => {
             console.log('user>> ' + u.username);
             console.log('userObj>> ' + JSON.stringify(u));
             console.log('Token>> ' + res.token);
-            Cookies.set('__user', u.username);
-            Cookies.set('__userObj', res.item);
-            Cookies.set('__token', res.token);
-            dispatch(UserAction({User: u}));
+            saveToStorage({key: '__user', value: u.username});
+            saveToStorage({key: '__userObj', value: JSON.stringify(res.item)});
+            saveToStorage({key: '__token', value: res.token});
+            dispatch(UserAction(u));
+            navigation.replace('UserProfile');
           } else {
-            alert('Unexpected Error');
+            alert('Unexpected Error, Please Try again');
           }
         })
         .catch((err) => {
@@ -101,10 +97,16 @@ export default SignUP = (props) => {
           marginVertical: 15,
           marginLeft: 10,
         }}>
-        Create Account = {props.user.username}
+        Create Account
       </Text>
+      {/*//Sec5: <SignUP Form> */}
       <Form>
-        <View style={ComStyles.field}>
+        {/*//Sec1: <Username> */}
+        <View
+          style={[
+            ComStyles.field,
+            window.width < 500 ? MobStyles.field : PcStyles.field,
+          ]}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <FontAwesome
               name="sort-alpha-asc"
@@ -118,7 +120,12 @@ export default SignUP = (props) => {
             </Item>
           </View>
         </View>
-        <View style={ComStyles.field}>
+        {/*//Sec2: <Email> */}
+        <View
+          style={[
+            ComStyles.field,
+            window.width < 500 ? MobStyles.field : PcStyles.field,
+          ]}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <MaterialIcons
               name="email"
@@ -132,7 +139,12 @@ export default SignUP = (props) => {
             </Item>
           </View>
         </View>
-        <View style={ComStyles.field}>
+        {/*//Sec3: <Password> */}
+        <View
+          style={[
+            ComStyles.field,
+            window.width < 500 ? MobStyles.field : PcStyles.field,
+          ]}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <MaterialCommunityIcons
               name="textbox-password"
@@ -146,7 +158,12 @@ export default SignUP = (props) => {
             </Item>
           </View>
         </View>
-        <View style={ComStyles.field}>
+        {/*//Sec4: <ReType-Password> */}
+        <View
+          style={[
+            ComStyles.field,
+            window.width < 500 ? MobStyles.field : PcStyles.field,
+          ]}>
           <View style={{borderWidth: 0, justifyContent: 'center'}}>
             <MaterialCommunityIcons
               name="textbox-password"
@@ -160,6 +177,7 @@ export default SignUP = (props) => {
             </Item>
           </View>
         </View>
+        {/*//Sec5: <SignUP Form> */}
       </Form>
 
       <View
@@ -221,6 +239,7 @@ export default SignUP = (props) => {
 };
 
 import {StyleSheet} from 'react-native';
+import {saveToStorage} from '../../services/Storage';
 
 const ComStyles = StyleSheet.create({
   container: {
@@ -258,5 +277,5 @@ const TabStyles = StyleSheet.create({
 
 const PcStyles = StyleSheet.create({
   container: {},
-  field: {},
+  field: {marginVertical: 10},
 });

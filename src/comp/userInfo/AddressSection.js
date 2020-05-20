@@ -1,48 +1,70 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
-import {Toast, Root} from 'native-base';
-import {
-  FontAwesome,
-  SimpleLineIcons,
-  Feather,
-  Ionicons,
-} from '@expo/vector-icons';
+import React, {useEffect} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {
   primaryColor,
   secondaryColor,
 } from '../../../assets/theme/global_colors';
-import {Row, Col} from '../../../assets/components/Layouts';
+import {useQuery, useMutation} from '@apollo/client';
+import {gql_getAllAddress} from '../../services/gqls';
+import {AddressSelector} from './userAddressSection/AddressSelector';
 import {useDispatch, useSelector} from 'react-redux';
 
 export default AddressSection = (props) => {
-  const [height, setHeight] = useState(100);
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        console.log('change height');
-        if (height <= 100) setHeight(200);
-        else setHeight(100);
-      }}>
-      <View style={{width: '100%', height: height}}>
-        <Row
-          _style={{
+  const User = useSelector((state) => state.userReducer.User);
+  const {loading, error, data} = useQuery(gql_getAllAddress, {
+    variables: {id: User.id},
+    //skip: !id,
+    //pollInterval: 1000, //turn it to 1000ms
+  });
+
+  useEffect(() => {
+    return () => {};
+  });
+
+  if (loading || error)
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          console.log(error);
+        }}>
+        <View
+          style={{
+            width: '100%',
+            height: 100,
             alignItems: 'center',
-            borderWidth: 0,
             justifyContent: 'center',
           }}>
-          <Text style={{color: primaryColor, paddingVertical: 5}}>
-            Touch and Hold to change Delivery address
-          </Text>
-        </Row>
-        <View style={{alignItems: 'center', marginTop: 20}}>
-          <Text style={{fontWeight: 'bold', color: primaryColor, fontSize: 18}}>
-            {props.User.address[0].add1}
-          </Text>
-          <Text style={{fontWeight: 'bold', color: primaryColor, fontSize: 18}}>
-            {props.User.address[0].add2}
-          </Text>
+          {User.username && (
+            <Text style={{color: primaryColor}}>Loading Address</Text>
+          )}
+          {!User.username && (
+            <Text style={{color: primaryColor}}>
+              Consider <Text style={{fontWeight: 'bold'}}>SigningUP</Text> to
+              continue
+            </Text>
+          )}
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  else if (data) {
+    return (
+      <AddressSelector
+        data={data}
+        User={User}
+        cartAddressSelection={props.cartAddressSelection}
+        updateSelectedAddress={props.updateSelectedAddress}
+        selectedAddress={props.selectedAddress}
+      />
+    );
+  } else
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          console.log('refresh');
+        }}>
+        <View style={{width: '100%', height: 100}}>
+          <Text>Some error while fetching data from server</Text>
+        </View>
+      </TouchableOpacity>
+    );
 };

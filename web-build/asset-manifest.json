@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/static/js/app.d7fb1702.chunk.js",
-    "app.js.map": "/static/js/app.d7fb1702.chunk.js.map",
-    "runtime~app.js": "/static/js/runtime~app.b3244af7.js",
-    "runtime~app.js.map": "/static/js/runtime~app.b3244af7.js.map",
-    "static/js/2.04adcd0d.chunk.js": "/static/js/2.04adcd0d.chunk.js",
-    "static/js/2.04adcd0d.chunk.js.map": "/static/js/2.04adcd0d.chunk.js.map",
+    "app.js": "/static/js/app.017fad02.chunk.js",
+    "app.js.map": "/static/js/app.017fad02.chunk.js.map",
+    "runtime~app.js": "/static/js/runtime~app.a6639e49.js",
+    "runtime~app.js.map": "/static/js/runtime~app.a6639e49.js.map",
+    "static/js/2.796ec98c.chunk.js": "/static/js/2.796ec98c.chunk.js",
+    "static/js/2.796ec98c.chunk.js.map": "/static/js/2.796ec98c.chunk.js.map",
     "fonts/AntDesign.ttf": "/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/./fonts/Feather.ttf",
@@ -16,6 +16,7 @@
     "fonts/Ionicons.ttf": "/./fonts/Ionicons.ttf",
     "fonts/MaterialCommunityIcons.ttf": "/./fonts/MaterialCommunityIcons.ttf",
     "fonts/MaterialIcons.ttf": "/./fonts/MaterialIcons.ttf",
+    "fonts/Roboto-Medium.ttf": "/./fonts/Roboto-Medium.ttf",
     "fonts/SimpleLineIcons.ttf": "/./fonts/SimpleLineIcons.ttf",
     "fonts/SpaceMono-Regular.ttf": "/./fonts/SpaceMono-Regular.ttf",
     "favicon-16.png": "/favicon-16.png",
@@ -24,11 +25,16 @@
     "index.html": "/index.html",
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
-    "static/media/empty-image.png": "/static/media/empty-image.a9702b66.png"
+    "service-worker.js.map": "/service-worker.js.map",
+    "static/media/empty-image.png": "/static/media/empty-image.a9702b66.png",
+    "static/media/loading.gif": "/static/media/loading.baeaf0c7.gif",
+    "static/media/loading_logo.png": "/static/media/loading_logo.b8513f19.png",
+    "workbox-76bb8387.js": "/workbox-76bb8387.js",
+    "workbox-76bb8387.js.map": "/workbox-76bb8387.js.map"
   },
   "entrypoints": [
-    "static/js/runtime~app.b3244af7.js",
-    "static/js/2.04adcd0d.chunk.js",
-    "static/js/app.d7fb1702.chunk.js"
+    "static/js/runtime~app.a6639e49.js",
+    "static/js/2.796ec98c.chunk.js",
+    "static/js/app.017fad02.chunk.js"
   ]
 }

@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, Image, View} from 'react-native';
 import {Row, Col, Left, Body, Right, Accordion, Grid} from 'native-base';
 import {FontAwesome} from '@expo/vector-icons';
 import GridView from 'react-native-super-grid';
-import {server} from '../../../services/REST';
+import {server2} from '../../../services/REST';
 import {
   primaryColor,
   secondaryColor,
@@ -50,7 +50,7 @@ export default Category = (props) => {
                 style={{width: 100, height: 70}}
                 source={{
                   uri:
-                    server +
+                    server2 +
                     '/ProductImages/' +
                     props.Category +
                     '/' +
@@ -171,7 +171,7 @@ export default Category = (props) => {
                   style={{width: 100, height: 100}}
                   source={{
                     uri:
-                      server +
+                      server2 +
                       '/ProductImages/' +
                       props.Category +
                       '/' +
