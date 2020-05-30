@@ -57,20 +57,23 @@ export const AddressSelector = (props) => {
                 height: 100,
               }}>
               <Text style={{color: primaryColor, textAlign: 'center'}}>
-                User Account Don't have any address, Add one now
+                User Account Don't have any address,{' '}
+                <Text style={{fontWeight: 'bold'}}>Add one now</Text>
               </Text>
             </View>
           </TouchableOpacity>
         );
       else {
         const _defaultAddress = props.data.User.Address.filter((item) => {
-          if (item.id == props.data.User.defaultAddress) return item;
+          if (item.id == props.data.User.defaultAddress) {
+            console.log('returning address as default with id >> ' + item.id);
+            return item;
+          }
         });
         const defAdd =
           _defaultAddress.length > 0
             ? _defaultAddress[0]
             : props.data.User.Address[0];
-        console.log('default address - ' + JSON.stringify(defAdd));
         return (
           //{/*//Sec1: <Default AddressSection> */}
           <DefaultAddressView
@@ -88,7 +91,6 @@ export const AddressSelector = (props) => {
     case constant.SELECTOR:
       return (
         <View style={{width: '100%', minHeight: height, paddingBottom: 10}}>
-          {console.log('User>>>>>>>>>>>>> ' + props.User.id)}
           <Text
             style={{
               marginVertical: 8,

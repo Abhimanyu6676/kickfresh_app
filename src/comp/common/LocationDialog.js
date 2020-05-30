@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Modal,
   View,
@@ -12,31 +12,16 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   cityAction,
   showLocationDialogAction,
+  regionAction,
 } from '../../redux/actions/GlobalAction';
 import {Dialog} from 'react-native-simple-dialogs';
 import {Row} from '../../../assets/components/Layouts';
 import GridView from 'react-native-super-grid';
 import {server2} from '../../services/REST';
 import {EvilIcons} from '@expo/vector-icons';
+import {useQuery, useMutation} from '@apollo/react-hooks';
 
 const window = Dimensions.get('window');
-const cities = [
-  {
-    City: 'Noida',
-  },
-  {
-    City: 'Gurgaon',
-  },
-  {
-    City: 'Delhi',
-  },
-  {
-    City: 'Chennai',
-  },
-  {
-    City: 'Mumbai',
-  },
-];
 
 export default LocationDialog = (props) => {
   const showLocationDialog = useSelector(
@@ -81,6 +66,9 @@ export default LocationDialog = (props) => {
 };
 
 const _Dialog = (props) => {
+  const [showRegions, setShowRegions] = useState(false);
+  const {loading, error, data} = useQuery(gql_getLocations);
+  const [currLoc, setCurrLoc] = useState(null);
   return (
     <View
       style={[
@@ -90,7 +78,15 @@ const _Dialog = (props) => {
       <View style={{borderWidth: 0, width: '100%', flexDirection: 'row'}}>
         <Text
           style={{color: '#aaa', fontSize: 18, fontWeight: 'bold', flex: 1}}>
-          We currently deliver in
+          {data && data.allLocations.length > 0
+            ? showRegions
+              ? 'Select Your Region'
+              : 'We currently deliver in'
+            : loading
+            ? 'Loading...'
+            : error
+            ? 'Error While fetching data'
+            : '...'}
         </Text>
         <TouchableOpacity
           onPress={() => {
@@ -111,54 +107,139 @@ const _Dialog = (props) => {
         </TouchableOpacity>
       </View>
       <Row>
-        <View style={{borderWidth: 0, width: '100%', alignItems: 'center'}}>
-          <GridView
-            itemDimension={120}
-            spacing={20}
-            items={cities}
-            renderItem={(item, index) => (
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(item.item.City);
-                  props.dispatch(cityAction({currentLocation: item.item.City}));
-                  props.dispatch(
-                    showLocationDialogAction({
-                      showLocationDialog: false,
-                    }),
-                  );
-                }}>
-                <View
-                  style={{
-                    borderWidth: 0,
-                    alignSelf: 'center',
-                    paddingHorizontal: 10,
-                  }}>
-                  <Image
-                    style={{width: 100, height: 100, alignSelf: 'center'}}
-                    source={{
-                      uri: server2 + '/CityImages/' + item.item.City + '.png',
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: '#aaa',
-                      marginTop: 10,
-                      fontSize: 18,
-                      alignSelf: 'center',
+        {!showRegions &&
+          data &&
+          !loading &&
+          !error &&
+          data.allLocations.length > 0 && (
+            <View style={{borderWidth: 0, width: '100%', alignItems: 'center'}}>
+              <GridView
+                itemDimension={120}
+                spacing={20}
+                items={data.allLocations}
+                renderItem={(item, index) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      console.log(item.item.Location);
+                      props.dispatch(
+                        cityAction({currentLocation: item.item.Location}),
+                      );
+                      setCurrLoc(item.item);
+                      console.log(
+                        'regions in area = ' + item.item.Region.length,
+                      );
+                      if (item.item.Region.length > 0) {
+                        setShowRegions(true);
+                      } else {
+                        props.dispatch(
+                          showLocationDialogAction({
+                            showLocationDialog: false,
+                          }),
+                        );
+                      }
                     }}>
-                    {item.item.City}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
+                    <View
+                      style={{
+                        borderWidth: 0,
+                        alignSelf: 'center',
+                        paddingHorizontal: 10,
+                      }}>
+                      <Image
+                        style={{width: 100, height: 100, alignSelf: 'center'}}
+                        source={{
+                          uri:
+                            server2 +
+                            '/CityImages/' +
+                            item.item.Location +
+                            '.png',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          color: '#aaa',
+                          marginTop: 10,
+                          fontSize: 18,
+                          alignSelf: 'center',
+                        }}>
+                        {item.item.Location}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          )}
+        {error && (
+          <View>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: '#25c165'}}>
+              Error While fetching Data
+            </Text>
+            <Text style={{fontSize: 15, fontWeight: 'bold', color: '#25c165'}}>
+              This might be because of network error, plaese try later
+            </Text>
+          </View>
+        )}
+        {showRegions &&
+          data &&
+          data.allLocations.length > 0 &&
+          currLoc != null && <Region loc={currLoc} dispatch={props.dispatch} />}
       </Row>
     </View>
   );
 };
 
+const Region = (props) => {
+  console.log('location = ');
+  console.log(props.loc);
+  return (
+    <View style={{borderWidth: 0, width: '100%', alignItems: 'center'}}>
+      <GridView
+        itemDimension={120}
+        spacing={20}
+        items={props.loc.Region}
+        renderItem={(item, index) => (
+          <TouchableOpacity
+            onPress={() => {
+              console.log(item.item.Region);
+              props.dispatch(regionAction({currentRegion: item.item.Region}));
+              //setShowRegions(false);
+              props.dispatch(
+                showLocationDialogAction({
+                  showLocationDialog: false,
+                }),
+              );
+            }}>
+            <View
+              style={{
+                borderWidth: 0,
+                alignSelf: 'center',
+                paddingHorizontal: 10,
+              }}>
+              <Image
+                style={{width: 100, height: 100, alignSelf: 'center'}}
+                source={{
+                  uri: server2 + '/CityImages/' + props.loc.Location + '.png',
+                }}
+              />
+              <Text
+                style={{
+                  color: '#aaa',
+                  marginTop: 10,
+                  fontSize: 18,
+                  alignSelf: 'center',
+                }}>
+                {item.item.Region}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
+};
+
 import {StyleSheet} from 'react-native';
+import {gql_getLocations} from '../../services/gqls';
 
 const ComStyles = StyleSheet.create({
   container: {

@@ -40,6 +40,30 @@ const bottomTabNavigator = (props) => {
     };
   });
 
+  const navigateToCart = () => {
+    //-->perform neccessary operation
+    if (showLocationDialog)
+      dispatch(
+        showLocationDialogAction({
+          showLocationDialog: false,
+        }),
+      );
+    //-->perfor CartScreen state update in redux
+    dispatch(cartasDialogAction({showCartasDialog: !showCartasDialog}));
+    //-->navigate to cart if BottomTabBar visible and perform scrolling action
+    if (!getForCartDialog(dimensions.window.width)) {
+      navigation.navigate('Cart');
+    } else {
+      if (locationRef != null && !showCartasDialog)
+        if (true) {
+          //console.log('Current screen = ');
+          //console.log(route.state.routes[route.state.index]);
+          navigation.navigate('StoreHome');
+        }
+      locationRef.current.scrollTo({x: 0, y: 0, animated: true});
+    }
+  };
+
   navigation.setOptions({
     headerStyle: [
       ComStyles.headerStyle,
@@ -182,27 +206,7 @@ const bottomTabNavigator = (props) => {
           <TouchableOpacity
             transparent
             onPress={() => {
-              if (showLocationDialog)
-                dispatch(
-                  showLocationDialogAction({
-                    showLocationDialog: false,
-                  }),
-                );
-              console.log('===' + JSON.stringify(showCartasDialog));
-              dispatch(
-                cartasDialogAction({showCartasDialog: !showCartasDialog}),
-              );
-              if (!getForCartDialog(dimensions.window.width)) {
-                navigation.navigate('Cart');
-              } else {
-                if (locationRef != null && !showCartasDialog)
-                  if (true) {
-                    //console.log('Current screen = ');
-                    //console.log(route.state.routes[route.state.index]);
-                    navigation.navigate('StoreHome');
-                  }
-                locationRef.current.scrollTo({x: 0, y: 0, animated: true});
-              }
+              navigateToCart();
             }}>
             <View
               style={{
@@ -210,33 +214,39 @@ const bottomTabNavigator = (props) => {
                 paddingHorizontal: 10,
                 borderWidth: 0,
               }}>
-              <View
-                style={{
-                  backgroundColor: '#fff',
-                  paddingHorizontal: 2,
-                  paddingVertical: 1,
-                  borderRadius: 10,
-                  position: 'absolute',
-                  top: -12,
-                  right: 0,
-                  height: props.cart.length > 9 ? 20 : 15,
-                  width: props.cart.length > 9 ? 20 : 15,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text
+              {!showCartasDialog && (
+                <View
                   style={{
-                    color: '#0a0',
+                    backgroundColor: '#fff',
+                    paddingHorizontal: 2,
+                    paddingVertical: 1,
+                    borderRadius: 10,
+                    position: 'absolute',
+                    top: -12,
+                    right: 0,
+                    height: props.cart.length > 9 ? 20 : 15,
+                    width: props.cart.length > 9 ? 20 : 15,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
-                  {props.cart.length ? props.cart.length : 0}
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      color: '#0a0',
+                    }}>
+                    {props.cart.length ? props.cart.length : 0}
+                  </Text>
+                </View>
+              )}
               <FontAwesome5
                 style={{
                   color: '#fff',
                   fontSize: 22,
                 }}
-                name="cart-arrow-down"
+                name={
+                  showCartasDialog && getForCartDialog(dimensions.window.width)
+                    ? 'window-close'
+                    : 'cart-arrow-down'
+                }
               />
             </View>
           </TouchableOpacity>
@@ -288,6 +298,7 @@ const bottomTabNavigator = (props) => {
           tabBarVisible: getForCartDialog(dimensions.window.width)
             ? false
             : true,
+          unmountOnBlur: true,
           tabBarIcon: ({focused}) => (
             <TabBarIcon focused={focused} name="cart-arrow-down" title="Cart" />
           ),

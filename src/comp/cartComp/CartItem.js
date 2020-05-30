@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, View, Animated, Easing} from 'react-native';
 import {QuantityView1} from '../common/quantityViews/QuantityView1';
 import {useSelector, useDispatch} from 'react-redux';
 import {cartListAction} from '../../redux/actions/CartListAction';
@@ -13,7 +13,7 @@ import {
 } from '../../../assets/theme/global_colors';
 
 export default Cartitems = (props) => {
-  const cart = useSelector((state) => state.cartReducer.cartList);
+  const {cart} = props;
   const dispatch = useDispatch();
 
   return (
@@ -26,15 +26,28 @@ export default Cartitems = (props) => {
               key={index}
               cart={cart}
               dispatch={dispatch}
-              dimensions={props.dimensions}
+              width={props.width}
             />
           ),
       )}
+      {/* <View
+        style={{
+          height: 200,
+          borderWidth: 0,
+          width: '90%',
+          backgroundColor: '#eeeeeeee',
+          borderRadius: 10,
+        }}>
+        <Text>Unavailable Items</Text>
+      </View> */}
     </View>
   );
 };
 
 const ListItem = (props) => {
+  //const [fadeAnim] = useState(new Animated.Value(0));
+  const [started, setStarted] = useState(false);
+
   const Add = async () => {
     let r = AddToCart({
       Product: props.item,
@@ -52,11 +65,36 @@ const ListItem = (props) => {
     });
     props.dispatch(cartListAction({cartList: r.cartList}));
   };
+
+  /* const startOpacity = () => {
+    //opacity.setValue(0.5);
+    if (!started) setStarted(true);
+    console.log('animation started - ' + fadeAnim.__getValue());
+    Animated.timing(fadeAnim, {
+      toValue: fadeAnim.__getValue() > 0 ? 0 : 1,
+      duration: 1000,
+      easing: Easing.linear,
+    }).start(() => {
+      startOpacity();
+    });
+  };
+
+  const _fadeAnim = fadeAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.5, 1],
+  });
+  useEffect(() => {
+    if (!started && props.item.modified) startOpacity();
+    return () => {};
+  }); */
+
   return (
-    <Row
-      _style={[
+    <View
+      style={[
         ComStyles.Item,
         props.width < 500 ? MobStyles.Item : PcStyles.Item,
+        {borderWidth: props.item.modified ? 1 : 0, borderColor: primaryColor},
+        /* {opacity: props.item.modified ? _fadeAnim : 1}, */
       ]}>
       <View
         style={{
@@ -97,6 +135,17 @@ const ListItem = (props) => {
         </Text>
         <Text style={{color: '#aaa'}}>500gms</Text>
         <View style={{flexDirection: 'row'}}>
+          {props.item.modified && (
+            <Text
+              style={{
+                color: primaryColor,
+                fontWeight: 'bold',
+                marginTop: 5,
+                marginRight: 5,
+              }}>
+              New Price
+            </Text>
+          )}
           <Text style={{color: primaryColor, fontWeight: 'bold', marginTop: 5}}>
             Rs {props.item.Price ? props.item.Price : '--'}
           </Text>
@@ -120,7 +169,7 @@ const ListItem = (props) => {
       <View style={{borderWidth: 0, alignSelf: 'flex-end'}}>
         <QuantityView1 qty={props.item.currQty} Add={Add} Remove={Remove} />
       </View>
-    </Row>
+    </View>
   );
 };
 
@@ -132,6 +181,7 @@ const ComStyles = StyleSheet.create({
     borderWidth: 0,
   },
   Item: {
+    flexDirection: 'row',
     backgroundColor: '#fff',
     marginVertical: 8,
     marginHorizontal: 10,
@@ -152,7 +202,7 @@ const ComStyles = StyleSheet.create({
 
 const MobStyles = StyleSheet.create({
   container: {},
-  Item: {width: '95%'},
+  Item: {width: '90%'},
 });
 
 const TabStyles = StyleSheet.create({

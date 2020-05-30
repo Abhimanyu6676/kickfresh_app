@@ -10,14 +10,8 @@ const Cartinfo = (props) => {
   const [saving, setSaving] = useState(0);
   const [Charges, setCharges] = useState(0);
   const [Total, setTotal] = useState(0);
-  const [selectedAddress, setSelectedAddress] = useState({});
   const [windowWidth, setWindowWidth] = useState(0);
   const windowRef = useRef(null);
-
-  const updateSelectedAddress = (props) => {
-    console.log('Setting Selected Address' + JSON.stringify(props));
-    setSelectedAddress(props);
-  };
 
   useEffect(() => {
     //effect
@@ -55,8 +49,8 @@ const Cartinfo = (props) => {
           dimensions={props.dimensions}
           cart={props.cart}
           User={props.User}
-          updateSelectedAddress={updateSelectedAddress}
-          selectedAddress={selectedAddress}
+          updateSelectedAddress={props.updateSelectedAddress}
+          selectedAddress={props.selectedAddress}
         />
         <AmountSection
           dimensions={props.dimensions}
@@ -68,7 +62,14 @@ const Cartinfo = (props) => {
         />
       </View>
       <View stylw={ComStyles.checkout}>
-        <Checkout Price={Price} selectedAddress={selectedAddress} />
+        <Checkout
+          Price={Price}
+          selectedAddress={props.selectedAddress}
+          resolveCart={props.resolveCart}
+          User={props.User}
+          resolverLoading={props.resolverLoading}
+          cartHasChanges={props.cartHasChanges}
+        />
       </View>
     </View>
   );

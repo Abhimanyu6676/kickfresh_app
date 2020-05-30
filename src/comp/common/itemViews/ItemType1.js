@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 import QuantityView2 from '../quantityViews/QuantityView2';
 import {Row} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
-import {cartListAction} from '../../../redux/actions/CartListAction';
+import {
+  cartListAction,
+  cartResolutionTimeAction,
+} from '../../../redux/actions/CartListAction';
 import {AddToCart, RemoveFromCart} from '../../../services/CartUpdate';
 import ImageLoad from 'react-native-image-placeholder';
 import {server, server2} from '../../../services/REST';
@@ -19,6 +22,8 @@ export default ItemType1 = (props) => {
 
   useEffect(() => {
     //Effect
+    //console.log('mgjfkjgv,');
+    //console.log(cart.length);
     let productQty = 0;
     cart.map((item, index) => {
       if (item.ProductName == props.item.ProductName) {
@@ -32,13 +37,15 @@ export default ItemType1 = (props) => {
   });
 
   const Add = () => {
+    //console.log('mgjfkjgv,');
+    //console.log(cart);
     let r = AddToCart({
       Product: props.item,
       Cart: cart,
       Qty: 1,
     });
-    //setQuantity(r.rtrQty ? r.rtrQty : 0);
-    console.log('updateCart>> ' + JSON.stringify(r.cartList));
+    setQuantity(r.rtrQty ? r.rtrQty : 0);
+    //console.log('updateCart>> ' + JSON.stringify(r.cartList));
     dispatch(cartListAction({cartList: r.cartList}));
   };
 
@@ -48,8 +55,8 @@ export default ItemType1 = (props) => {
       Qty: 1,
       ProductName: props.item.ProductName,
     });
-    //setQuantity(r.rtrQty ? r.rtrQty : 0);
-    console.log('updateCart>> ' + JSON.stringify(r.cartList));
+    setQuantity(r.rtrQty ? r.rtrQty : 0);
+    //console.log('updateCart>> ' + JSON.stringify(r.cartList));
     dispatch(cartListAction({cartList: r.cartList}));
   };
 

@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {FontAwesome5} from '@expo/vector-icons';
-import {useMutation} from '@apollo/client';
+import {useMutation} from '@apollo/react-hooks';
 import {gql_createSubscriber} from '../../services/gqls';
 
 const window = Dimensions.get('window');

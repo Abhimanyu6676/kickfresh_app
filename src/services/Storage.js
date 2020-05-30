@@ -29,7 +29,7 @@ export const saveToStorage = (props) => {
 };
 
 export const fetchFromStorage = (props) => {
-  let debug = true;
+  let debug = false;
   return new Promise((resolve, reject) => {
     if (Platform.OS == 'web') {
       fetchWeb(props)
@@ -78,7 +78,7 @@ export const fetchFromStorage = (props) => {
 };
 
 export const removeFromStorage = (props) => {
-  let debug = true;
+  let debug = false;
   return new Promise((resolve, reject) => {
     if (Platform.OS == 'web') {
       removeWeb(props)
@@ -103,7 +103,7 @@ export const removeFromStorage = (props) => {
 };
 
 const saveWeb = async (props) => {
-  let debug = true;
+  let debug = false;
   try {
     {
       debug &&
@@ -123,7 +123,7 @@ const saveWeb = async (props) => {
 };
 
 const savePhone = async (props) => {
-  let debug = true;
+  let debug = false;
   try {
     {
       debug &&
@@ -144,7 +144,7 @@ const savePhone = async (props) => {
 };
 
 const fetchWeb = async (props) => {
-  let debug = true;
+  let debug = false;
   {
     debug && console.log('Fettiching "' + props.key + '" from Web Cookie');
   }
@@ -158,7 +158,7 @@ const fetchWeb = async (props) => {
 };
 
 const fetchPhone = async (props) => {
-  let debug = true;
+  let debug = false;
   {
     debug &&
       console.log('Fettiching "' + props.key + '" from Phone AsyncStorage');
@@ -173,7 +173,7 @@ const fetchPhone = async (props) => {
 };
 
 const removePhone = async (props) => {
-  let debug = true;
+  let debug = false;
   {
     debug &&
       console.log('Removing "' + props.key + '" from Phone AsyncStorage');
@@ -187,7 +187,7 @@ const removePhone = async (props) => {
 };
 
 const removeWeb = async (props) => {
-  let debug = true;
+  let debug = false;
   {
     debug && console.log('removing "' + props.key + '" from Web Cookie');
   }

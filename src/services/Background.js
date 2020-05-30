@@ -20,6 +20,7 @@ export default Background = (props) => {
       removeFromStorage({key: '__userObj'});
       removeFromStorage({key: '__user'});
       removeFromStorage({key: '__token'});
+      removeFromStorage({key: 'cart'});
       Cookies.remove('_user', {path: '/', domain: '192.168.1.6'});
       Cookies.remove('__user');
       Cookies.remove('__userObj');
@@ -28,30 +29,36 @@ export default Background = (props) => {
     if (!userUpdated) {
       fetchFromStorage({key: '__userObj'})
         .then((res) => {
-          console.log('***' + res);
+          //console.log('***' + res);
+          //setUserUpdated(true);
           dispatch(UserAction({User: JSON.parse(res)}));
         })
         .catch((err) => {
           console.log('***' + err);
         });
     }
-    let cart = Cookies.get('cart');
-    if (cart && cart != 'undefined' && !cartUpdated) {
-      var obj = JSON.parse(cart);
-      console.log('cart>> ' + JSON.stringify(obj));
-      setCartUpdated(true);
-      dispatch(cartListAction({cartList: obj}));
+    if (!cartUpdated) {
+      fetchFromStorage({key: 'cart'})
+        .then((res) => {
+          console.log(
+            'BackGroundcartfetch>>>>>>>>>>>>>>>>>>>>>>>>>>.' /* + res */,
+          );
+          setCartUpdated(true);
+          dispatch(cartListAction({cartList: JSON.parse(res)}));
+        })
+        .catch((err) => {
+          console.log('cartfetch' + err);
+        });
     }
     if (!userUpdated) {
       //if (false) {
-      console.log(
+      /* console.log(
         'BACKGROUND SERVICE fetching>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
-      );
+      ); */
       getUserAPI()
         .then((response) => {
           //validate response
-          //-->upon no user found -- Cookies.remove('__user'); Cookies.remove('__userObj');
-          console.log('getUserAPI response >>>');
+          //console.log('getUserAPI response >>>');
           console.log(response);
           const u = response;
           saveToStorage({key: '__user', value: u.username});

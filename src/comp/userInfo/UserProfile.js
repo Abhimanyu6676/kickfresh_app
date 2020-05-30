@@ -272,7 +272,7 @@ import {StyleSheet} from 'react-native';
 import {compose} from 'redux';
 import {UserAction} from '../../redux/actions/UserAction';
 import {removeFromStorage} from '../../services/Storage';
-import {useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/react-hooks';
 import {gql_getUser} from '../../services/gqls';
 
 const ComStyles = StyleSheet.create({
@@ -334,7 +334,7 @@ const MobStyles = StyleSheet.create({
   profileSection: {},
   infoRow: {},
   footer: {},
-  address: {width: '80%'},
+  address: {width: '90%'},
 });
 
 const TabStyles = StyleSheet.create({

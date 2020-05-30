@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, TextInput, Picker} from 'react-native';
 import {
   primaryColor,
   secondaryColor,
 } from '../../../../assets/theme/global_colors';
-import {useMutation} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/react-hooks';
 import {
   gql_getAllAddress,
   gql_updateAddress,
   gql_deleteAddress,
   gql_addAddress,
+  gql_getLocations,
 } from '../../../services/gqls';
 
 export const CreateEditAddress = (props) => {
@@ -18,9 +19,11 @@ export const CreateEditAddress = (props) => {
   const [addLine1, setAddLine1] = useState('');
   const [addLine2, setAddLine2] = useState('');
   const [addRef, setAddRef] = useState('');
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState(null);
+  const [region, setRegion] = useState(null);
   const [state, setState] = useState('');
   const [isDefault, setIsDefault] = useState(false);
+  const [currLoc, setCurrLoc] = useState(null);
   const createNewAdd = selectedItem ? false : true;
   const [
     updateAddress,
@@ -49,6 +52,12 @@ export const CreateEditAddress = (props) => {
       alert('Cannot Add Address, Please try later');
     },
   });
+
+  const {
+    loading: locationLoading,
+    error: locationError,
+    data: locationData,
+  } = useQuery(gql_getLocations);
 
   const [
     deleteAddress,
@@ -80,6 +89,7 @@ export const CreateEditAddress = (props) => {
       addLine2: '',
       addRef: '',
       city: '',
+      Region: '',
       state: '',
       isDefault: false,
     };
@@ -91,14 +101,19 @@ export const CreateEditAddress = (props) => {
       addLine1.length < 2 ||
       addLine2.length < 4 ||
       city.length < 2 ||
-      state.length < 2
+      currLoc == null
     )
       return false;
     return true;
   };
 
+  useEffect(() => {
+    return () => {};
+  });
+
   return (
     <View style={{width: '100%', minHeight: height, paddingBottom: 10}}>
+      {locationData && console.log(locationData)}
       <View
         style={{
           flexDirection: 'row',
@@ -182,7 +197,53 @@ export const CreateEditAddress = (props) => {
           marginTop: 10,
         }}>
         <Text style={ComStyles.primaryText}>City :</Text>
-        <TextInput
+        <Picker
+          selectedValue={city}
+          style={{height: 50, flex: 1}}
+          onValueChange={(itemValue, itemIndex) => {
+            console.log(itemValue);
+            locationData.allLocations.map((item) => {
+              if (item.Location == itemValue) {
+                setCurrLoc(item);
+                setCity(itemValue);
+                if (item.Region.length > 0) {
+                  setRegion(item.Region[0].Region);
+                } else setRegion('');
+              } else {
+                return;
+              }
+            });
+          }}>
+          {locationData &&
+            locationData.allLocations.length > 0 &&
+            locationData.allLocations.map((item, index) => {
+              if (!city && index == 0) {
+                setCurrLoc(item);
+                setCity(item.Location);
+              }
+              return (
+                <Picker.Item label={item.Location} value={item.Location} />
+              );
+            })}
+        </Picker>
+        {city != null && currLoc != null && currLoc.Region.length > 0 && (
+          <Picker
+            selectedValue={region}
+            style={{height: 50, flex: 1}}
+            onValueChange={(itemValue, itemIndex) => {
+              setRegion(itemValue);
+            }}>
+            {locationData &&
+              locationData.allLocations.length > 0 &&
+              currLoc.Region.map((item, index) => {
+                if (!region && index == 0) {
+                  setRegion(item.Region);
+                }
+                return <Picker.Item label={item.Region} value={item.Region} />;
+              })}
+          </Picker>
+        )}
+        {/* <TextInput
           label="Add1"
           value={city}
           placeholder={selectedItem.city}
@@ -197,7 +258,7 @@ export const CreateEditAddress = (props) => {
             borderBottomColor: secondaryColor,
             marginRight: 10,
           }}
-        />
+        /> */}
       </View>
       <View
         style={{
@@ -206,7 +267,7 @@ export const CreateEditAddress = (props) => {
           alignItems: 'center',
           marginTop: 10,
         }}>
-        <Text style={ComStyles.primaryText}>State :</Text>
+        {/*      <Text style={ComStyles.primaryText}>State :</Text>
         <TextInput
           label="Add1"
           value={state}
@@ -222,7 +283,7 @@ export const CreateEditAddress = (props) => {
             borderBottomColor: secondaryColor,
             marginRight: 10,
           }}
-        />
+        /> */}
       </View>
       {/*//Sec1: <isDefault> */}
       <View>
@@ -273,18 +334,20 @@ export const CreateEditAddress = (props) => {
           onPress={() => {
             if (validate()) {
               let _variables = {
-                id: createNewAdd ? User.id : selectedItem.id,
+                userID: createNewAdd ? User.id : selectedItem.id,
+                locationID: currLoc != null ? currLoc.id : null,
                 addLine1:
                   addLine1.length > 0 ? addLine1 : selectedItem.addLine1,
                 addLine2:
                   addLine2.length > 0 ? addLine2 : selectedItem.addLine2,
                 addRef: addRef.length > 0 ? addRef : selectedItem.addRef,
-                city: city.length > 0 ? city : selectedItem.city,
-                state: state.length > 0 ? state : selectedItem.state,
-                isDefault: false,
+                //state: state.length > 0 ? state : selectedItem.state,
+                //isDefault: false,
               };
+              if (region.length > 0) _variables.region = region;
               if (!createNewAdd) {
                 console.log('update');
+                _variables.addID = selectedItem.id;
                 updateAddress({
                   variables: _variables,
                   refetchQueries: [

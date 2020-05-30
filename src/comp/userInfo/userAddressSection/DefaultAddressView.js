@@ -13,7 +13,7 @@ export const DefaultAddressView = (props) => {
       onPress={() => {
         toggleSelectorView({view: 1});
       }}>
-      {props.cartAddressSelection && !props.selectedAddress.state && (
+      {props.cartAddressSelection && !props.selectedAddress.city && (
         <View
           style={{
             width: '100%',
@@ -27,7 +27,7 @@ export const DefaultAddressView = (props) => {
         </View>
       )}
 
-      {(!props.cartAddressSelection || props.selectedAddress.state) && (
+      {(!props.cartAddressSelection || props.selectedAddress.city) && (
         <View style={{width: '100%', minHeight: height}}>
           <Row
             _style={{
@@ -66,7 +66,7 @@ export const DefaultAddressView = (props) => {
                   fontSize: 18,
                   marginLeft: 8,
                 }}>
-                {defAdd ? defAdd.city : ''}
+                {defAdd ? defAdd.city.Location : ''}
               </Text>
             </Row>
           </View>

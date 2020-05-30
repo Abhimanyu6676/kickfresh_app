@@ -4,7 +4,7 @@ import GridView from 'react-native-super-grid';
 import ItemType1 from '../../common/itemViews/ItemType1';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 //-->GQL Imports
-import {useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/react-hooks';
 import {gql_SubCategoryProducts} from '../../../services/gqls';
 
 export default SubCategory = (props) => {

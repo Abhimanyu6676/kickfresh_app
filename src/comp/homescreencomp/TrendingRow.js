@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import ItemType1 from '../common/itemViews/ItemType1';
-import {useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/react-hooks';
 import {gql_trendingProducts} from '../../services/gqls';
 
 export default TrendingRow = (props) => {

@@ -4,7 +4,7 @@ import {
   primaryColor,
   secondaryColor,
 } from '../../../../assets/theme/global_colors';
-import {useMutation} from '@apollo/client';
+import {useMutation} from '@apollo/react-hooks';
 import {
   gql_getAllAddress,
   gql_updateDefaultAddress,
@@ -111,7 +111,8 @@ export const AddressItem = (props) => {
           textAlign: 'center',
           marginBottom: 8,
         }}>
-        {props.item.city}, {props.item.state}, {props.item.Pincode}
+        {props.item.city.Location},{' '}
+        {props.item.city.State ? props.item.city.State : ''},
       </Text>
     </TouchableOpacity>
   );

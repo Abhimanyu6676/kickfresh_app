@@ -41,7 +41,7 @@ const Cartlist = (props) => {
           </Text>
         </View>
       )}
-      <CartItems width={props.width} />
+      <CartItems width={props.width} cart={props.cart} />
     </View>
   );
 };

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Row, Form, Item, Input} from 'native-base';
-import {useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/react-hooks';
 import {gql_SearchProducts} from '../../services/gqls';
 
 export default SearchBar = (props) => {

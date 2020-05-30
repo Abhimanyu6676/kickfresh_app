@@ -1,5 +1,6 @@
-import { CartList } from "../comp/cartComp/CartList";
-import Cookies from "js-cookie";
+import {CartList} from '../comp/cartComp/CartList';
+import Cookies from 'js-cookie';
+import {saveToStorage} from './Storage';
 
 /**
  * @param {, Product, Cart, Qty}
@@ -25,13 +26,14 @@ export const AddToCart = (props) => {
   if (!cartUpdated) {
     P = Object.assign({}, props.Product);
     if (P.currQty >= 0) P.currQty++;
-    else P["currQty"] = 1;
+    else P['currQty'] = 1;
     cartList.push(P);
     cartUpdated = true;
   }
   rtrQty = P.currQty;
-  Cookies.set("cart", cartList);
-  return { cartList: cartList, updated: cartUpdated, rtrQty: rtrQty };
+  Cookies.set('cart', cartList);
+  saveToStorage({key: 'cart', value: JSON.stringify(cartList)});
+  return {cartList: cartList, updated: cartUpdated, rtrQty: rtrQty};
 };
 
 /**
@@ -69,6 +71,7 @@ export const RemoveFromCart = (props) => {
   if (!cartUpdated) {
     cartUpdated = false;
   }
-  Cookies.set("cart", newCart);
-  return { cartList: newCart, updated: cartUpdated, rtrQty: rtrQty };
+  Cookies.set('cart', newCart);
+  saveToStorage({key: 'cart', value: JSON.stringify(cartList)});
+  return {cartList: newCart, updated: cartUpdated, rtrQty: rtrQty};
 };

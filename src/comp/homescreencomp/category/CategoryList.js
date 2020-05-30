@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import Category from './Category';
 //-->GQL Imports
-import {useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/react-hooks';
 import {gql_allCatogries} from '../../../services/gqls';
 
 const CategoryList = (props) => {

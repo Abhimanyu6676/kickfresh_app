@@ -1,4 +1,10 @@
 import {reduxConstants} from '../ReduxConstants';
+import {client} from '../../Application';
+import {gql_resolveCart} from '../../services/gqls';
+import {
+  cartResolutionTimeAction,
+  cartResolvedBooleanAction,
+} from '../actions/CartListAction';
 
 const dummyCartList = [
   {
@@ -23,12 +29,23 @@ const dummyCartList = [
 
 const initialState = {
   cartList: [],
+  cartResolvedBoolean: false,
+  cartResolutionTime: 1111,
 };
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case reduxConstants.CART_LIST:
-      return action.cartList;
+      return {...state, cartResolvedBoolean: false, cartList: action.cartList};
+
+    case reduxConstants.CART_RESOLUTION_TIME:
+      return {
+        ...state,
+        cartResolutionTime: action.cartResolutionTime,
+      };
+
+    case reduxConstants.CART_RESOLVED_BOOLEAN:
+      return {...state, cartResolvedBoolean: action.cartResolvedBoolean};
 
     default:
       return state;
